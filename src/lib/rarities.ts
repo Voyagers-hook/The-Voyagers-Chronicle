@@ -10,35 +10,38 @@ export const rarityLabel: Record<Rarity, string> = {
 
 export const rarityOrder: Rarity[] = ["common", "rare", "epic", "legendary", "super_rare"];
 
-export const raritySectionInfo: Record<Rarity, { title: string; subtitle: string; bgClass: string; textClass: string }> = {
+export const raritySectionInfo: Record<
+  Rarity,
+  { title: string; subtitle: string; color: string; bannerBg: string }
+> = {
   common: {
     title: "Widespread",
-    subtitle: "The fish you'll find in every pond and river",
-    bgClass: "bg-[hsl(200,15%,50%)]/20 border-[hsl(200,15%,50%)]/40",
-    textClass: "text-[hsl(200,15%,70%)]",
+    subtitle: "The friendly fish you'll find in every pond and stream",
+    color: "hsl(145 50% 38%)",
+    bannerBg: "bg-[hsl(145,55%,88%)]",
   },
   rare: {
     title: "Elusive",
-    subtitle: "Harder to spot -- you need skill to land these",
-    bgClass: "bg-[hsl(210,75%,55%)]/20 border-[hsl(210,75%,55%)]/40",
-    textClass: "text-[hsl(210,75%,70%)]",
+    subtitle: "Trickier to spot — silver-scaled and quick!",
+    color: "hsl(210 80% 45%)",
+    bannerBg: "bg-[hsl(210,85%,90%)]",
   },
   epic: {
     title: "Specimen",
-    subtitle: "The big ones that make your arms ache",
-    bgClass: "bg-[hsl(42,90%,55%)]/20 border-[hsl(42,90%,55%)]/40",
-    textClass: "text-[hsl(42,90%,65%)]",
+    subtitle: "The big golden ones that make your arms ache",
+    color: "hsl(38 90% 40%)",
+    bannerBg: "bg-[hsl(45,95%,88%)]",
   },
   legendary: {
     title: "Rare",
-    subtitle: "Most anglers will never see one of these",
-    bgClass: "bg-[hsl(280,65%,58%)]/20 border-[hsl(280,65%,58%)]/40",
-    textClass: "text-[hsl(280,65%,72%)]",
+    subtitle: "Most fishers will never see one of these beauties",
+    color: "hsl(285 70% 45%)",
+    bannerBg: "bg-[hsl(285,75%,92%)]",
   },
   super_rare: {
     title: "Super Rare",
-    subtitle: "Legendary catches -- only the luckiest find these",
-    bgClass: "bg-[hsl(0,85%,60%)]/20 border-[hsl(0,85%,60%)]/40",
-    textClass: "text-[hsl(0,85%,72%)]",
+    subtitle: "Legendary catches — only the luckiest find these!",
+    color: "hsl(0 80% 50%)",
+    bannerBg: "bg-gradient-to-r from-[hsl(50,100%,88%)] via-[hsl(20,95%,90%)] to-[hsl(0,90%,90%)]",
   },
 };
