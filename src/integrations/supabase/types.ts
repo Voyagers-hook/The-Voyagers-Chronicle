@@ -16,69 +16,188 @@ export type Database = {
     Tables: {
       cards: {
         Row: {
+          beauty: number
           created_at: string
+          energy: number
           fact: string | null
           id: string
           image_url: string | null
           name: string
+          power: number
           rarity: Database["public"]["Enums"]["card_rarity"]
           sort_order: number
+          stealth: number
           updated_at: string
           weight_or_size: string | null
         }
         Insert: {
+          beauty?: number
           created_at?: string
+          energy?: number
           fact?: string | null
           id?: string
           image_url?: string | null
           name: string
+          power?: number
           rarity?: Database["public"]["Enums"]["card_rarity"]
           sort_order?: number
+          stealth?: number
           updated_at?: string
           weight_or_size?: string | null
         }
         Update: {
+          beauty?: number
           created_at?: string
+          energy?: number
           fact?: string | null
           id?: string
           image_url?: string | null
           name?: string
+          power?: number
           rarity?: Database["public"]["Enums"]["card_rarity"]
           sort_order?: number
+          stealth?: number
           updated_at?: string
           weight_or_size?: string | null
         }
         Relationships: []
       }
-      challenges: {
+      catch_submissions: {
+        Row: {
+          admin_notes: string | null
+          created_at: string
+          id: string
+          photo_url: string | null
+          species: string
+          status: string
+          updated_at: string
+          user_id: string
+          weight: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string
+          id?: string
+          photo_url?: string | null
+          species: string
+          status?: string
+          updated_at?: string
+          user_id: string
+          weight?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string
+          id?: string
+          photo_url?: string | null
+          species?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+          weight?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
         Row: {
           created_at: string
-          emoji: string | null
+          display_name: string
           id: string
-          reward: string | null
-          sort_order: number
-          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      trade_offers: {
+        Row: {
+          created_at: string
+          from_user_id: string
+          id: string
+          offered_card_id: string
+          requested_card_id: string
+          status: string
+          to_user_id: string
           updated_at: string
         }
         Insert: {
           created_at?: string
-          emoji?: string | null
+          from_user_id: string
           id?: string
-          reward?: string | null
-          sort_order?: number
-          title: string
+          offered_card_id: string
+          requested_card_id: string
+          status?: string
+          to_user_id: string
           updated_at?: string
         }
         Update: {
           created_at?: string
-          emoji?: string | null
+          from_user_id?: string
           id?: string
-          reward?: string | null
-          sort_order?: number
-          title?: string
+          offered_card_id?: string
+          requested_card_id?: string
+          status?: string
+          to_user_id?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "trade_offers_offered_card_id_fkey"
+            columns: ["offered_card_id"]
+            isOneToOne: false
+            referencedRelation: "user_cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trade_offers_requested_card_id_fkey"
+            columns: ["requested_card_id"]
+            isOneToOne: false
+            referencedRelation: "user_cards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_cards: {
+        Row: {
+          card_id: string
+          id: string
+          obtained_at: string
+          user_id: string
+        }
+        Insert: {
+          card_id: string
+          id?: string
+          obtained_at?: string
+          user_id: string
+        }
+        Update: {
+          card_id?: string
+          id?: string
+          obtained_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_cards_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
@@ -106,12 +225,33 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      accept_trade: { Args: { trade_id: string }; Returns: undefined }
+      get_leaderboard: {
+        Args: never
+        Returns: {
+          display_name: string
+          total_beauty: number
+          total_cards: number
+          total_energy: number
+          total_power: number
+          total_score: number
+          total_stealth: number
+          user_id: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      send_random_card: {
+        Args: {
+          rarity_filter: Database["public"]["Enums"]["card_rarity"]
+          target_user_id: string
+        }
+        Returns: string
       }
     }
     Enums: {
