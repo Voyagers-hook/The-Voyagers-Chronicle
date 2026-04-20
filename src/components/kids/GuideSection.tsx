@@ -37,13 +37,16 @@ export const GuideSection = () => {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="guide" className="py-16 px-6 max-w-4xl mx-auto">
+    <section id="guide" className="py-20 px-6 max-w-4xl mx-auto">
       <div className="text-center mb-10">
-        <h2 className="font-display text-4xl md:text-6xl text-leaf text-stroke-dark drop-shadow-[0_4px_0_rgba(0,0,0,0.15)]">
-          The Angler's Guide
+        <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground font-display mb-2">
+          Field Manual
+        </p>
+        <h2 className="font-display text-4xl md:text-5xl text-foreground">
+          The Voyager's Guide
         </h2>
-        <p className="mt-3 text-lg text-muted-foreground">
-          Tap a card to learn a new fishing skill 📖
+        <p className="mt-3 text-base md:text-lg text-muted-foreground">
+          Tap a chapter to learn a new skill.
         </p>
       </div>
 
