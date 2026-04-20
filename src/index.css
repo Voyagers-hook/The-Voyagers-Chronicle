@@ -1,103 +1,54 @@
-@import url('https://fonts.googleapis.com/css2?family=Bowlby+One&family=Nunito:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Little Voyagers — Adventure Club Design System (ages 8-17) */
-
 @layer base {
   :root {
-    /* Warm cream paper background */
-    --background: 38 35% 95%;
-    --foreground: 205 45% 14%;
+    --background: 220 40% 8%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 205 45% 14%;
+    --card: 220 35% 12%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 205 45% 14%;
+    --popover: 220 35% 12%;
+    --popover-foreground: 0 0% 98%;
 
-    /* Voyager teal (matches logo) */
-    --primary: 188 78% 42%;
+    --primary: 24 95% 53%;
     --primary-foreground: 0 0% 100%;
 
-    /* Deep navy (matches logo bear/text) */
-    --secondary: 205 45% 18%;
-    --secondary-foreground: 38 35% 95%;
+    --secondary: 220 30% 16%;
+    --secondary-foreground: 0 0% 95%;
 
-    --muted: 38 25% 88%;
-    --muted-foreground: 205 20% 35%;
+    --muted: 220 25% 18%;
+    --muted-foreground: 220 15% 55%;
 
-    /* Burnt copper accent */
-    --accent: 18 75% 48%;
+    --accent: 24 95% 53%;
     --accent-foreground: 0 0% 100%;
 
-    /* Brass / treasure */
-    --treasure: 35 65% 48%;
-    --treasure-foreground: 38 90% 96%;
-
-    /* Forest green */
-    --leaf: 158 45% 32%;
-    --leaf-foreground: 38 90% 96%;
-
-    --destructive: 0 70% 50%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 205 20% 80%;
-    --input: 205 15% 90%;
-    --ring: 188 78% 42%;
+    --border: 220 20% 20%;
+    --input: 220 25% 18%;
+    --ring: 24 95% 53%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Rarity colors — slightly muted, badge-like */
-    --rarity-common: 205 20% 45%;
-    --rarity-rare: 210 70% 45%;
-    --rarity-epic: 270 55% 50%;
-    --rarity-legendary: 35 80% 50%;
+    --rarity-common: 220 15% 50%;
+    --rarity-rare: 210 80% 55%;
+    --rarity-epic: 270 70% 60%;
+    --rarity-legendary: 35 90% 55%;
 
-    /* Gradients */
-    --gradient-sky: linear-gradient(180deg, hsl(188 60% 60%), hsl(205 45% 25%));
-    --gradient-water: linear-gradient(180deg, hsl(188 75% 40%), hsl(205 60% 18%));
-    --gradient-treasure: linear-gradient(135deg, hsl(35 70% 55%), hsl(25 60% 35%));
-    --gradient-legendary: linear-gradient(135deg, hsl(42 90% 55%), hsl(18 75% 48%));
-    --gradient-paper: radial-gradient(ellipse at top, hsl(38 40% 97%), hsl(38 25% 88%));
-
-    /* Shadows — clean, depth-based, less chunky */
-    --shadow-card: 0 4px 6px -1px hsl(205 45% 14% / 0.1), 0 10px 25px -5px hsl(205 45% 14% / 0.18);
-    --shadow-pop: 0 3px 0 hsl(205 45% 14% / 0.2), 0 6px 12px -2px hsl(205 45% 14% / 0.15);
-    --shadow-glow-legendary: 0 0 30px hsl(42 90% 55% / 0.5);
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 205 45% 10%;
-    --foreground: 38 35% 95%;
-    --card: 205 40% 14%;
-    --card-foreground: 38 35% 95%;
-    --popover: 205 40% 14%;
-    --popover-foreground: 38 35% 95%;
-    --primary: 188 78% 50%;
-    --primary-foreground: 205 45% 10%;
-    --secondary: 38 35% 92%;
-    --secondary-foreground: 205 45% 10%;
-    --muted: 205 30% 20%;
-    --muted-foreground: 38 20% 75%;
-    --accent: 18 75% 55%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 70% 50%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 205 30% 22%;
-    --input: 205 30% 22%;
-    --ring: 188 78% 50%;
+    --sidebar-background: 220 35% 10%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 24 95% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 25% 18%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 220 20% 20%;
+    --sidebar-ring: 24 95% 53%;
   }
 }
 
@@ -105,28 +56,21 @@
   * { @apply border-border; }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Nunito', system-ui, sans-serif;
-    background-image:
-      radial-gradient(circle at 1px 1px, hsl(205 45% 14% / 0.04) 1px, transparent 0);
-    background-size: 24px 24px;
+    font-family: 'DM Sans', system-ui, sans-serif;
   }
-  h1, h2, h3, .font-display {
-    font-family: 'Bowlby One', 'Nunito', sans-serif;
-    letter-spacing: 0.01em;
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Chakra Petch', 'DM Sans', sans-serif;
+    font-weight: 700;
   }
 }
 
 @layer utilities {
-  .text-stroke-dark {
-    -webkit-text-stroke: 1.5px hsl(205 45% 14%);
-    paint-order: stroke fill;
-  }
-  .bg-gradient-sky { background: var(--gradient-sky); }
-  .bg-gradient-water { background: var(--gradient-water); }
-  .bg-gradient-treasure { background: var(--gradient-treasure); }
-  .bg-gradient-legendary { background: var(--gradient-legendary); }
-  .bg-gradient-paper { background: var(--gradient-paper); }
-  .shadow-card-pop { box-shadow: var(--shadow-card); }
-  .shadow-pop { box-shadow: var(--shadow-pop); }
-  .shadow-legendary { box-shadow: var(--shadow-glow-legendary); }
+  .card-rarity-common { border-color: hsl(var(--rarity-common)); }
+  .card-rarity-rare { border-color: hsl(var(--rarity-rare)); }
+  .card-rarity-epic { border-color: hsl(var(--rarity-epic)); }
+  .card-rarity-legendary { border-color: hsl(var(--rarity-legendary)); box-shadow: 0 0 20px hsl(35 90% 55% / 0.3); }
+  .chip-common { background: hsl(var(--rarity-common)); color: white; }
+  .chip-rare { background: hsl(var(--rarity-rare)); color: white; }
+  .chip-epic { background: hsl(var(--rarity-epic)); color: white; }
+  .chip-legendary { background: linear-gradient(135deg, hsl(35 90% 55%), hsl(24 95% 53%)); color: white; }
 }
