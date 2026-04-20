@@ -1,97 +1,95 @@
-import { useRef } from "react";
 import { motion } from "framer-motion";
-import heroLake from "@/assets/hero-lake.jpg";
-
-const floatingFish = [
-  { emoji: "🐟", top: "20%", left: "10%", delay: 0 },
-  { emoji: "🐠", top: "60%", left: "85%", delay: 1.2 },
-  { emoji: "🐡", top: "75%", left: "20%", delay: 0.6 },
-];
+import logo from "@/assets/little-voyagers-logo.png";
+import { Link } from "react-router-dom";
 
 export const Hero = ({ onStart }: { onStart: () => void }) => {
-  const ref = useRef<HTMLDivElement>(null);
-
   return (
-    <section
-      ref={ref}
-      className="relative overflow-hidden min-h-[88vh] flex items-center justify-center"
-    >
-      <img
-        src={heroLake}
-        alt="Cartoon lake with a friendly jumping fish at sunrise"
-        className="absolute inset-0 w-full h-full object-cover"
-        width={1920}
-        height={1024}
+    <section className="relative overflow-hidden min-h-[90vh] flex items-center justify-center bg-gradient-water">
+      {/* subtle texture overlay */}
+      <div
+        className="absolute inset-0 opacity-20 mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 20% 30%, hsl(38 35% 95%) 0%, transparent 40%), radial-gradient(circle at 80% 70%, hsl(188 78% 60%) 0%, transparent 40%)",
+        }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80" />
+      {/* admin link, top-right */}
+      <Link
+        to="/auth"
+        className="absolute top-4 right-4 z-20 text-xs uppercase tracking-widest text-primary-foreground/70 hover:text-primary-foreground transition-colors font-display"
+      >
+        Members ›
+      </Link>
 
-      {floatingFish.map((f, i) => (
-        <motion.div
-          key={i}
-          className="absolute text-5xl md:text-6xl select-none pointer-events-none drop-shadow-lg"
-          style={{ top: f.top, left: f.left }}
-          animate={{ y: [0, -20, 0], rotate: [-5, 5, -5] }}
-          transition={{ duration: 4, repeat: Infinity, delay: f.delay, ease: "easeInOut" }}
-        >
-          {f.emoji}
-        </motion.div>
-      ))}
+      <div className="relative z-10 text-center px-6 max-w-3xl py-20">
+        <motion.img
+          src={logo}
+          alt="Little Voyagers Project Somerset emblem"
+          width={220}
+          height={220}
+          initial={{ scale: 0.6, opacity: 0, rotate: -8 }}
+          animate={{ scale: 1, opacity: 1, rotate: 0 }}
+          transition={{ type: "spring", stiffness: 140, damping: 14 }}
+          className="mx-auto w-44 md:w-56 drop-shadow-[0_8px_20px_rgba(0,0,0,0.4)]"
+        />
 
-      <div className="relative z-10 text-center px-6 max-w-3xl">
-        <motion.div
-          initial={{ scale: 0, rotate: -15 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ type: "spring", stiffness: 200, damping: 12 }}
-          className="inline-block bg-secondary text-secondary-foreground font-display text-sm md:text-base px-5 py-2 rounded-full shadow-pop -rotate-3"
+        <motion.p
+          initial={{ y: -10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="mt-6 text-xs md:text-sm uppercase tracking-[0.4em] text-primary-foreground/80 font-display"
         >
-          🎣 Lil' Anglers Club
-        </motion.div>
+          Members Area · Est. 2025
+        </motion.p>
 
         <motion.h1
-          initial={{ y: 40, opacity: 0 }}
+          initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2, type: "spring" }}
-          className="font-display text-5xl md:text-7xl lg:text-8xl mt-6 text-secondary text-stroke-dark drop-shadow-[0_6px_0_rgba(0,0,0,0.2)]"
+          transition={{ delay: 0.4, type: "spring" }}
+          className="font-display text-5xl md:text-7xl mt-3 text-primary-foreground leading-[1.05]"
         >
-          Welcome,<br/>Little Angler!
+          Welcome,<br/><span className="text-secondary-foreground bg-treasure px-3 inline-block -rotate-1 mt-2">Voyager</span>
         </motion.h1>
 
         <motion.p
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-6 text-lg md:text-xl text-foreground font-medium bg-card/80 backdrop-blur-sm rounded-2xl px-6 py-3 inline-block shadow-card-pop"
+          transition={{ delay: 0.6 }}
+          className="mt-6 text-base md:text-lg text-primary-foreground/90 max-w-xl mx-auto"
         >
-          Learn to fish, collect cool cards, and become a true lake legend! 🌊
+          Learn the craft, complete real-world challenges, and collect cards
+          earned out on the water. Your adventure log starts here.
         </motion.p>
 
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.7 }}
-          className="mt-8 flex gap-4 justify-center flex-wrap"
+          transition={{ delay: 0.8 }}
+          className="mt-10 flex gap-3 md:gap-4 justify-center flex-wrap"
         >
           <button
             onClick={onStart}
-            className="font-display text-xl md:text-2xl bg-accent text-accent-foreground px-8 py-4 rounded-full shadow-pop hover:translate-y-1 hover:shadow-none transition-all"
+            className="font-display text-base md:text-lg bg-accent text-accent-foreground px-6 py-3 md:px-8 md:py-4 rounded-md shadow-pop hover:translate-y-0.5 hover:shadow-none transition-all uppercase tracking-wider"
           >
-            Start Adventure ⚓
+            Open the Guide
           </button>
           <button
             onClick={() => document.getElementById("cards")?.scrollIntoView({ behavior: "smooth" })}
-            className="font-display text-xl md:text-2xl bg-card text-foreground px-8 py-4 rounded-full shadow-pop hover:translate-y-1 hover:shadow-none transition-all"
+            className="font-display text-base md:text-lg bg-card text-foreground px-6 py-3 md:px-8 md:py-4 rounded-md shadow-pop hover:translate-y-0.5 hover:shadow-none transition-all uppercase tracking-wider"
           >
-            See My Cards 🎴
+            View Card Collection
           </button>
         </motion.div>
       </div>
 
-      {/* Wavy bottom */}
-      <svg className="absolute bottom-0 left-0 w-full" viewBox="0 0 1440 100" preserveAspectRatio="none">
-        <path
-          d="M0,40 C240,100 480,0 720,40 C960,80 1200,20 1440,50 L1440,100 L0,100 Z"
-          fill="hsl(var(--background))"
-        />
+      {/* angled bottom edge */}
+      <svg
+        className="absolute bottom-0 left-0 w-full"
+        viewBox="0 0 1440 80"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path d="M0,80 L1440,40 L1440,80 Z" fill="hsl(var(--background))" />
       </svg>
     </section>
   );
