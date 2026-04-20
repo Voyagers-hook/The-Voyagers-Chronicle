@@ -73,8 +73,8 @@ export default {
         },
       },
       fontFamily: {
-        display: ["'Luckiest Guy'", "Fredoka", "cursive"],
-        body: ["Fredoka", "system-ui", "sans-serif"],
+        display: ["'Bowlby One'", "Nunito", "sans-serif"],
+        body: ["Nunito", "system-ui", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

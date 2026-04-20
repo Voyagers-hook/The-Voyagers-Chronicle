@@ -1,72 +1,72 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Luckiest+Guy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bowlby+One&family=Nunito:wght@400;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Cartoon Adventure Fishing — Kids Members Design System */
+/* Little Voyagers — Adventure Club Design System (ages 8-17) */
 
 @layer base {
   :root {
-    /* Sky & water palette */
-    --background: 200 70% 96%;
-    --foreground: 220 45% 18%;
+    /* Warm cream paper background */
+    --background: 38 35% 95%;
+    --foreground: 205 45% 14%;
 
-    --card: 40 80% 98%;
-    --card-foreground: 220 45% 18%;
+    --card: 0 0% 100%;
+    --card-foreground: 205 45% 14%;
 
-    --popover: 40 80% 98%;
-    --popover-foreground: 220 45% 18%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 205 45% 14%;
 
-    /* Lake blue */
-    --primary: 200 85% 48%;
+    /* Voyager teal (matches logo) */
+    --primary: 188 78% 42%;
     --primary-foreground: 0 0% 100%;
 
-    /* Sunny yellow */
-    --secondary: 42 95% 60%;
-    --secondary-foreground: 25 60% 18%;
+    /* Deep navy (matches logo bear/text) */
+    --secondary: 205 45% 18%;
+    --secondary-foreground: 38 35% 95%;
 
-    --muted: 200 40% 92%;
-    --muted-foreground: 220 25% 40%;
+    --muted: 38 25% 88%;
+    --muted-foreground: 205 20% 35%;
 
-    /* Coral accent */
-    --accent: 14 90% 62%;
+    /* Burnt copper accent */
+    --accent: 18 75% 48%;
     --accent-foreground: 0 0% 100%;
 
-    /* Treasure / wood */
-    --treasure: 32 70% 45%;
-    --treasure-foreground: 40 90% 96%;
+    /* Brass / treasure */
+    --treasure: 35 65% 48%;
+    --treasure-foreground: 38 90% 96%;
 
-    /* Leaf green */
-    --leaf: 140 55% 45%;
-    --leaf-foreground: 0 0% 100%;
+    /* Forest green */
+    --leaf: 158 45% 32%;
+    --leaf-foreground: 38 90% 96%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 32 50% 80%;
-    --input: 32 50% 88%;
-    --ring: 200 85% 48%;
+    --border: 205 20% 80%;
+    --input: 205 15% 90%;
+    --ring: 188 78% 42%;
 
-    --radius: 1.25rem;
+    --radius: 0.75rem;
 
-    /* Rarity colors */
-    --rarity-common: 200 30% 55%;
-    --rarity-rare: 220 80% 55%;
-    --rarity-epic: 280 70% 58%;
-    --rarity-legendary: 42 95% 55%;
+    /* Rarity colors — slightly muted, badge-like */
+    --rarity-common: 205 20% 45%;
+    --rarity-rare: 210 70% 45%;
+    --rarity-epic: 270 55% 50%;
+    --rarity-legendary: 35 80% 50%;
 
     /* Gradients */
-    --gradient-sky: linear-gradient(180deg, hsl(200 90% 75%), hsl(195 85% 88%));
-    --gradient-sun: radial-gradient(circle at 50% 30%, hsl(42 100% 70%), hsl(14 90% 62%));
-    --gradient-water: linear-gradient(180deg, hsl(200 85% 55%), hsl(210 80% 35%));
-    --gradient-treasure: linear-gradient(135deg, hsl(42 95% 60%), hsl(32 80% 45%));
-    --gradient-legendary: linear-gradient(135deg, hsl(42 100% 65%), hsl(14 90% 62%), hsl(280 70% 58%));
+    --gradient-sky: linear-gradient(180deg, hsl(188 60% 60%), hsl(205 45% 25%));
+    --gradient-water: linear-gradient(180deg, hsl(188 75% 40%), hsl(205 60% 18%));
+    --gradient-treasure: linear-gradient(135deg, hsl(35 70% 55%), hsl(25 60% 35%));
+    --gradient-legendary: linear-gradient(135deg, hsl(42 90% 55%), hsl(18 75% 48%));
+    --gradient-paper: radial-gradient(ellipse at top, hsl(38 40% 97%), hsl(38 25% 88%));
 
-    /* Shadows — playful and chunky */
-    --shadow-card: 0 8px 0 hsl(220 45% 18% / 0.15), 0 12px 30px -8px hsl(220 45% 18% / 0.25);
-    --shadow-pop: 0 6px 0 hsl(220 45% 18% / 0.2);
-    --shadow-glow-legendary: 0 0 40px hsl(42 100% 65% / 0.6);
+    /* Shadows — clean, depth-based, less chunky */
+    --shadow-card: 0 4px 6px -1px hsl(205 45% 14% / 0.1), 0 10px 25px -5px hsl(205 45% 14% / 0.18);
+    --shadow-pop: 0 3px 0 hsl(205 45% 14% / 0.2), 0 6px 12px -2px hsl(205 45% 14% / 0.15);
+    --shadow-glow-legendary: 0 0 30px hsl(42 90% 55% / 0.5);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -79,51 +79,53 @@
   }
 
   .dark {
-    --background: 220 45% 10%;
-    --foreground: 40 90% 96%;
-    --card: 220 40% 14%;
-    --card-foreground: 40 90% 96%;
-    --popover: 220 40% 14%;
-    --popover-foreground: 40 90% 96%;
-    --primary: 200 85% 55%;
-    --primary-foreground: 220 45% 10%;
-    --secondary: 42 95% 60%;
-    --secondary-foreground: 220 45% 10%;
-    --muted: 220 30% 20%;
-    --muted-foreground: 40 30% 75%;
-    --accent: 14 90% 62%;
+    --background: 205 45% 10%;
+    --foreground: 38 35% 95%;
+    --card: 205 40% 14%;
+    --card-foreground: 38 35% 95%;
+    --popover: 205 40% 14%;
+    --popover-foreground: 38 35% 95%;
+    --primary: 188 78% 50%;
+    --primary-foreground: 205 45% 10%;
+    --secondary: 38 35% 92%;
+    --secondary-foreground: 205 45% 10%;
+    --muted: 205 30% 20%;
+    --muted-foreground: 38 20% 75%;
+    --accent: 18 75% 55%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 220 30% 22%;
-    --input: 220 30% 22%;
-    --ring: 200 85% 55%;
+    --border: 205 30% 22%;
+    --input: 205 30% 22%;
+    --ring: 188 78% 50%;
   }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
+  * { @apply border-border; }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Fredoka', system-ui, sans-serif;
+    font-family: 'Nunito', system-ui, sans-serif;
+    background-image:
+      radial-gradient(circle at 1px 1px, hsl(205 45% 14% / 0.04) 1px, transparent 0);
+    background-size: 24px 24px;
   }
   h1, h2, h3, .font-display {
-    font-family: 'Luckiest Guy', 'Fredoka', cursive;
-    letter-spacing: 0.02em;
+    font-family: 'Bowlby One', 'Nunito', sans-serif;
+    letter-spacing: 0.01em;
   }
 }
 
 @layer utilities {
   .text-stroke-dark {
-    -webkit-text-stroke: 2px hsl(220 45% 18%);
+    -webkit-text-stroke: 1.5px hsl(205 45% 14%);
     paint-order: stroke fill;
   }
   .bg-gradient-sky { background: var(--gradient-sky); }
   .bg-gradient-water { background: var(--gradient-water); }
   .bg-gradient-treasure { background: var(--gradient-treasure); }
   .bg-gradient-legendary { background: var(--gradient-legendary); }
+  .bg-gradient-paper { background: var(--gradient-paper); }
   .shadow-card-pop { box-shadow: var(--shadow-card); }
   .shadow-pop { box-shadow: var(--shadow-pop); }
   .shadow-legendary { box-shadow: var(--shadow-glow-legendary); }
