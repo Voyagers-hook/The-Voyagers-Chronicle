@@ -2,6 +2,7 @@ import { Hero } from "@/components/kids/Hero";
 import { TackleBoard } from "@/components/kids/TackleBoard";
 import { GuideSection } from "@/components/kids/GuideSection";
 import { CardCollection } from "@/components/kids/CardCollection";
+import logo from "@/assets/little-voyagers-logo.png";
 
 const Index = () => {
   const scrollToGuide = () => {
@@ -15,9 +16,12 @@ const Index = () => {
       <TackleBoard />
       <CardCollection />
 
-      <footer className="py-10 text-center text-muted-foreground text-sm">
-        <p className="font-display text-base text-foreground">🐟 Lil' Anglers Club</p>
-        <p className="mt-1">Made with love for little legends of the lake.</p>
+      <footer className="py-12 text-center border-t border-border bg-secondary/5">
+        <img src={logo} alt="Little Voyagers" className="w-16 h-16 mx-auto opacity-80" />
+        <p className="font-display text-sm uppercase tracking-widest text-foreground mt-3">
+          Little Voyagers · Project Somerset
+        </p>
+        <p className="mt-1 text-xs text-muted-foreground">Est. 2025 · Made for young explorers</p>
       </footer>
     </main>
   );
