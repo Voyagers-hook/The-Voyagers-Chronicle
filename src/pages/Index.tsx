@@ -1,16 +1,26 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Hero } from "@/components/kids/Hero";
+import { TackleBoard } from "@/components/kids/TackleBoard";
+import { GuideSection } from "@/components/kids/GuideSection";
+import { CardCollection } from "@/components/kids/CardCollection";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const scrollToGuide = () => {
+    document.getElementById("guide")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
-    </div>
+    <main className="min-h-screen bg-background overflow-x-hidden">
+      <Hero onStart={scrollToGuide} />
+      <GuideSection />
+      <TackleBoard />
+      <CardCollection />
+
+      <footer className="py-10 text-center text-muted-foreground text-sm">
+        <p className="font-display text-base text-foreground">🐟 Lil' Anglers Club</p>
+        <p className="mt-1">Made with love for little legends of the lake.</p>
+      </footer>
+    </main>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
