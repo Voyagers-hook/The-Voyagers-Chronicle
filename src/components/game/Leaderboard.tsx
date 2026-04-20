@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Trophy, Zap, Eye, Sparkles, Battery } from "lucide-react";
+import { Trophy, Zap, Eye, Sparkles, Battery, Medal } from "lucide-react";
 
 type LeaderboardEntry = {
   user_id: string;
@@ -26,55 +26,59 @@ export const Leaderboard = ({ currentUserId }: { currentUserId: string }) => {
     load();
   }, []);
 
-  if (loading) return <div className="text-center text-muted-foreground py-12 font-display">Loading...</div>;
+  if (loading) return <div className="text-center text-muted-foreground py-12 font-display text-lg">Loading leaderboard...</div>;
 
   if (entries.length === 0) {
-    return <div className="text-center text-muted-foreground py-12">No players yet.</div>;
+    return <div className="text-center text-muted-foreground py-12 font-display">No players yet.</div>;
   }
 
+  const rankColors = ["text-yellow-400", "text-gray-300", "text-amber-600"];
+
   return (
-    <div className="bg-card border border-border rounded-xl overflow-hidden">
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-border bg-secondary/50">
-              <th className="text-left px-4 py-3 font-display text-xs uppercase tracking-wider text-muted-foreground">#</th>
-              <th className="text-left px-4 py-3 font-display text-xs uppercase tracking-wider text-muted-foreground">Player</th>
-              <th className="text-center px-3 py-3"><Zap className="w-4 h-4 text-red-400 mx-auto" /></th>
-              <th className="text-center px-3 py-3"><Eye className="w-4 h-4 text-blue-400 mx-auto" /></th>
-              <th className="text-center px-3 py-3"><Sparkles className="w-4 h-4 text-purple-400 mx-auto" /></th>
-              <th className="text-center px-3 py-3"><Battery className="w-4 h-4 text-green-400 mx-auto" /></th>
-              <th className="text-center px-3 py-3 font-display text-xs uppercase tracking-wider text-muted-foreground">Cards</th>
-              <th className="text-right px-4 py-3 font-display text-xs uppercase tracking-wider text-primary">Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            {entries.map((e, i) => {
-              const isMe = e.user_id === currentUserId;
-              return (
-                <tr
-                  key={e.user_id}
-                  className={`border-b border-border/50 ${isMe ? "bg-primary/5" : "hover:bg-secondary/30"}`}
-                >
-                  <td className="px-4 py-3 font-display">
-                    {i === 0 ? <Trophy className="w-4 h-4 text-yellow-500" /> : i + 1}
-                  </td>
-                  <td className="px-4 py-3 font-display uppercase tracking-wide">
-                    {e.display_name || "Anonymous"}
-                    {isMe && <span className="text-primary text-xs ml-2">(you)</span>}
-                  </td>
-                  <td className="text-center px-3 py-3">{e.total_power}</td>
-                  <td className="text-center px-3 py-3">{e.total_stealth}</td>
-                  <td className="text-center px-3 py-3">{e.total_beauty}</td>
-                  <td className="text-center px-3 py-3">{e.total_energy}</td>
-                  <td className="text-center px-3 py-3">{e.total_cards}</td>
-                  <td className="text-right px-4 py-3 font-display text-primary">{e.total_score}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+    <div className="space-y-3">
+      {entries.map((e, i) => {
+        const isMe = e.user_id === currentUserId;
+        return (
+          <div
+            key={e.user_id}
+            className={`bg-card border-2 rounded-2xl p-4 flex items-center gap-4 transition-colors ${
+              isMe ? "border-primary/50 bg-primary/5" : "border-border"
+            }`}
+          >
+            {/* Rank */}
+            <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center shrink-0">
+              {i < 3 ? (
+                <Trophy className={`w-5 h-5 ${rankColors[i]}`} />
+              ) : (
+                <span className="font-display text-sm text-muted-foreground">{i + 1}</span>
+              )}
+            </div>
+
+            {/* Name */}
+            <div className="flex-1 min-w-0">
+              <div className="font-display text-base truncate">
+                {e.display_name || "Anonymous"}
+                {isMe && <span className="text-primary text-xs ml-2">(you)</span>}
+              </div>
+              <div className="text-xs text-muted-foreground">{e.total_cards} cards</div>
+            </div>
+
+            {/* Stats mini */}
+            <div className="hidden sm:flex items-center gap-3">
+              <div className="flex items-center gap-1 text-xs"><Zap className="w-3.5 h-3.5 text-red-400" />{e.total_power}</div>
+              <div className="flex items-center gap-1 text-xs"><Eye className="w-3.5 h-3.5 text-blue-400" />{e.total_stealth}</div>
+              <div className="flex items-center gap-1 text-xs"><Sparkles className="w-3.5 h-3.5 text-amber-400" />{e.total_beauty}</div>
+              <div className="flex items-center gap-1 text-xs"><Battery className="w-3.5 h-3.5 text-green-400" />{e.total_energy}</div>
+            </div>
+
+            {/* Score */}
+            <div className="text-right shrink-0">
+              <div className="font-display text-xl text-primary leading-none">{e.total_score}</div>
+              <div className="text-[10px] text-muted-foreground">score</div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

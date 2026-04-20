@@ -81,53 +81,53 @@ export const CatchSubmission = ({ userId }: { userId: string }) => {
   };
 
   const statusIcon = (status: string) => {
-    if (status === "pending") return <Clock className="w-4 h-4 text-yellow-500" />;
-    if (status === "approved") return <CheckCircle2 className="w-4 h-4 text-green-500" />;
-    return <XCircle className="w-4 h-4 text-red-500" />;
+    if (status === "pending") return <Clock className="w-5 h-5 text-yellow-500" />;
+    if (status === "approved") return <CheckCircle2 className="w-5 h-5 text-green-500" />;
+    return <XCircle className="w-5 h-5 text-red-500" />;
   };
 
   return (
     <div className="grid md:grid-cols-2 gap-6">
       {/* Submit form */}
-      <div className="bg-card border border-border rounded-xl p-6">
-        <h3 className="font-display text-lg uppercase tracking-wider mb-4">Submit a Catch</h3>
+      <div className="bg-card border-2 border-border rounded-2xl p-6">
+        <h3 className="font-display text-xl mb-4">Submit a Catch</h3>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="text-xs font-display uppercase tracking-wider text-muted-foreground">Species</label>
+            <label className="text-sm font-display text-muted-foreground">Species</label>
             <input
               type="text"
               required
               value={species}
               onChange={(e) => setSpecies(e.target.value)}
-              className="mt-1 w-full bg-input border border-border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+              className="mt-1.5 w-full bg-input border-2 border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors"
               placeholder="e.g. Brown Trout"
             />
           </div>
           <div>
-            <label className="text-xs font-display uppercase tracking-wider text-muted-foreground">Weight (optional)</label>
+            <label className="text-sm font-display text-muted-foreground">Weight (optional)</label>
             <input
               type="text"
               value={weight}
               onChange={(e) => setWeight(e.target.value)}
-              className="mt-1 w-full bg-input border border-border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+              className="mt-1.5 w-full bg-input border-2 border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors"
               placeholder="e.g. 2.5 lbs"
             />
           </div>
           <div>
-            <label className="text-xs font-display uppercase tracking-wider text-muted-foreground">Photo</label>
-            <label className="mt-1 flex items-center justify-center gap-2 border-2 border-dashed border-border rounded-lg py-6 cursor-pointer hover:border-primary/50 transition-colors">
-              <Camera className="w-5 h-5 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">{photo ? photo.name : "Upload photo"}</span>
+            <label className="text-sm font-display text-muted-foreground">Photo</label>
+            <label className="mt-1.5 flex items-center justify-center gap-2 border-2 border-dashed border-border rounded-2xl py-8 cursor-pointer hover:border-primary/50 transition-colors">
+              <Camera className="w-6 h-6 text-muted-foreground" />
+              <span className="text-sm text-muted-foreground">{photo ? photo.name : "Tap to upload photo"}</span>
               <input type="file" accept="image/*" className="hidden" onChange={handlePhoto} />
             </label>
             {photoPreview && (
-              <img src={photoPreview} alt="Preview" className="mt-2 w-full h-40 object-cover rounded-lg" />
+              <img src={photoPreview} alt="Preview" className="mt-3 w-full h-44 object-cover rounded-xl" />
             )}
           </div>
           <button
             type="submit"
             disabled={submitting}
-            className="w-full bg-primary text-primary-foreground font-display uppercase tracking-wider py-2.5 rounded text-sm hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full bg-primary text-primary-foreground font-display text-base py-3 rounded-xl hover:brightness-110 disabled:opacity-50 flex items-center justify-center gap-2 transition-all"
           >
             <Send className="w-4 h-4" />
             {submitting ? "Submitting..." : "Submit Catch"}
@@ -137,24 +137,24 @@ export const CatchSubmission = ({ userId }: { userId: string }) => {
 
       {/* History */}
       <div>
-        <h3 className="font-display text-lg uppercase tracking-wider mb-4">Your Submissions</h3>
+        <h3 className="font-display text-xl mb-4">Your Submissions</h3>
         {submissions.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No submissions yet.</p>
+          <p className="text-sm text-muted-foreground">No submissions yet. Submit your first catch!</p>
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-3">
             {submissions.map((s) => (
-              <div key={s.id} className="bg-card border border-border rounded-lg p-3 flex items-center gap-3">
+              <div key={s.id} className="bg-card border-2 border-border rounded-2xl p-4 flex items-center gap-3">
                 {s.photo_url && (
-                  <img src={s.photo_url} alt="" className="w-12 h-12 rounded object-cover shrink-0" />
+                  <img src={s.photo_url} alt="" className="w-14 h-14 rounded-xl object-cover shrink-0" />
                 )}
                 <div className="flex-1 min-w-0">
-                  <div className="font-display text-sm uppercase">{s.species}</div>
+                  <div className="font-display text-sm">{s.species}</div>
                   {s.weight && <div className="text-xs text-muted-foreground">{s.weight}</div>}
                   {s.admin_notes && <div className="text-xs text-muted-foreground mt-1 italic">{s.admin_notes}</div>}
                 </div>
-                <div className="flex items-center gap-1.5 shrink-0">
+                <div className="flex items-center gap-2 shrink-0">
                   {statusIcon(s.status)}
-                  <span className="text-xs font-display uppercase">{s.status}</span>
+                  <span className="text-xs font-display capitalize">{s.status}</span>
                 </div>
               </div>
             ))}

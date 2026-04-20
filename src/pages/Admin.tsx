@@ -4,8 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { Trash2, Plus, Upload, Send, Shield } from "lucide-react";
-
-type Rarity = "common" | "rare" | "epic" | "legendary";
+import { Rarity, rarityLabel, rarityOrder } from "@/lib/rarities";
 
 type Card = {
   id: string;
@@ -70,18 +69,18 @@ const Admin = () => {
     if (user && isAdmin) refresh();
   }, [user, isAdmin]);
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading...</div>;
+  if (loading) return <div className="min-h-screen flex items-center justify-center text-muted-foreground font-display">Loading...</div>;
   if (!user) return null;
 
   if (!isAdmin) {
     return (
       <main className="min-h-screen flex items-center justify-center px-6">
-        <div className="bg-card border border-border rounded-xl p-8 max-w-md text-center">
-          <h1 className="font-display text-xl uppercase">Access Denied</h1>
+        <div className="bg-card border-2 border-border rounded-2xl p-8 max-w-md text-center">
+          <h1 className="font-display text-2xl">Access Denied</h1>
           <p className="text-sm text-muted-foreground mt-2">Your account ({user.email}) is not an admin.</p>
           <div className="flex gap-4 mt-4 justify-center">
-            <button onClick={signOut} className="text-xs text-muted-foreground underline">Sign out</button>
-            <Link to="/" className="text-xs text-muted-foreground underline">Back</Link>
+            <button onClick={signOut} className="text-sm text-muted-foreground underline">Sign out</button>
+            <Link to="/" className="text-sm text-muted-foreground underline">Back</Link>
           </div>
         </div>
       </main>
@@ -89,31 +88,31 @@ const Admin = () => {
   }
 
   return (
-    <main className="min-h-screen">
-      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+    <main className="min-h-screen sticker-page">
+      <header className="border-b-2 border-border bg-card/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Shield className="w-5 h-5 text-primary" />
-            <h1 className="font-display text-lg text-primary tracking-tight">ADMIN PANEL</h1>
+            <h1 className="font-display text-lg text-primary">Admin Panel</h1>
           </div>
           <div className="flex items-center gap-3">
-            <Link to="/" className="text-xs text-muted-foreground hover:text-foreground">Back to app</Link>
-            <button onClick={signOut} className="text-xs text-muted-foreground hover:text-foreground">Sign out</button>
+            <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">Back to app</Link>
+            <button onClick={signOut} className="text-sm text-muted-foreground hover:text-foreground">Sign out</button>
           </div>
         </div>
       </header>
 
       <div className="max-w-6xl mx-auto px-4 py-6">
-        <nav className="flex gap-1 mb-6 bg-card rounded-lg p-1 border border-border">
+        <nav className="flex gap-1.5 mb-6 bg-card/60 rounded-2xl p-1.5 border-2 border-border">
           {(["cards", "submissions", "send"] as const).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
-              className={`px-4 py-2 rounded-md text-sm font-display uppercase tracking-wider transition-colors ${
-                tab === t ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+              className={`px-4 py-2.5 rounded-xl text-sm font-display transition-all ${
+                tab === t ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              {t === "send" ? "Send Cards" : t}
+              {t === "send" ? "Send Cards" : t.charAt(0).toUpperCase() + t.slice(1)}
             </button>
           ))}
         </nav>
@@ -136,7 +135,7 @@ const CardsAdmin = ({ cards, refresh }: { cards: Card[]; refresh: () => void }) 
 
   return (
     <div>
-      <button onClick={addCard} className="mb-4 bg-primary text-primary-foreground font-display text-xs uppercase tracking-wider px-4 py-2 rounded flex items-center gap-2 hover:opacity-90">
+      <button onClick={addCard} className="mb-4 bg-primary text-primary-foreground font-display text-sm px-5 py-2.5 rounded-xl flex items-center gap-2 hover:brightness-110 transition-all">
         <Plus className="w-4 h-4" /> Add Card
       </button>
       <div className="grid md:grid-cols-2 gap-4">
@@ -181,8 +180,8 @@ const CardRow = ({ card, refresh }: { card: Card; refresh: () => void }) => {
   };
 
   return (
-    <div className="bg-card border border-border rounded-lg p-4 flex gap-4">
-      <label className="shrink-0 w-20 h-28 bg-secondary rounded overflow-hidden flex items-center justify-center cursor-pointer relative group">
+    <div className="bg-card border-2 border-border rounded-2xl p-4 flex gap-4">
+      <label className="shrink-0 w-20 h-28 bg-secondary rounded-xl overflow-hidden flex items-center justify-center cursor-pointer">
         {local.image_url ? (
           <img src={local.image_url} alt="" className="w-full h-full object-contain" />
         ) : (
@@ -191,24 +190,26 @@ const CardRow = ({ card, refresh }: { card: Card; refresh: () => void }) => {
         <input type="file" accept="image/*" className="hidden" onChange={onFile} disabled={uploading} />
       </label>
       <div className="flex-1 space-y-2 min-w-0">
-        <input value={local.name} onChange={(e) => setLocal({ ...local, name: e.target.value })} onBlur={() => save({ name: local.name })} className="w-full font-display text-sm bg-transparent border-b border-border focus:outline-none focus:border-primary" />
+        <input value={local.name} onChange={(e) => setLocal({ ...local, name: e.target.value })} onBlur={() => save({ name: local.name })} className="w-full font-display text-sm bg-transparent border-b-2 border-border focus:outline-none focus:border-primary pb-1" />
         <div className="flex gap-2 flex-wrap">
-          <select value={local.rarity} onChange={(e) => save({ rarity: e.target.value as Rarity })} className="text-xs bg-input px-2 py-1 rounded">
-            <option value="common">Common</option><option value="rare">Rare</option><option value="epic">Epic</option><option value="legendary">Legendary</option>
+          <select value={local.rarity} onChange={(e) => save({ rarity: e.target.value as Rarity })} className="text-xs bg-input px-2 py-1.5 rounded-lg border border-border">
+            {rarityOrder.map((r) => (
+              <option key={r} value={r}>{rarityLabel[r]}</option>
+            ))}
           </select>
-          <input value={local.weight_or_size ?? ""} placeholder="Weight/size" onChange={(e) => setLocal({ ...local, weight_or_size: e.target.value })} onBlur={() => save({ weight_or_size: local.weight_or_size })} className="flex-1 text-xs bg-input px-2 py-1 rounded min-w-0" />
+          <input value={local.weight_or_size ?? ""} placeholder="Weight/size" onChange={(e) => setLocal({ ...local, weight_or_size: e.target.value })} onBlur={() => save({ weight_or_size: local.weight_or_size })} className="flex-1 text-xs bg-input px-2 py-1.5 rounded-lg border border-border min-w-0" />
         </div>
         <div className="grid grid-cols-4 gap-1">
           {(["power", "stealth", "beauty", "energy"] as const).map((stat) => (
             <div key={stat} className="flex flex-col">
-              <span className="text-[10px] text-muted-foreground uppercase">{stat}</span>
-              <input type="number" value={local[stat]} onChange={(e) => setLocal({ ...local, [stat]: Number(e.target.value) })} onBlur={() => save({ [stat]: local[stat] })} className="w-full text-xs bg-input px-1.5 py-1 rounded" />
+              <span className="text-[10px] text-muted-foreground capitalize">{stat}</span>
+              <input type="number" value={local[stat]} onChange={(e) => setLocal({ ...local, [stat]: Number(e.target.value) })} onBlur={() => save({ [stat]: local[stat] })} className="w-full text-xs bg-input px-1.5 py-1 rounded-lg border border-border" />
             </div>
           ))}
         </div>
-        <textarea value={local.fact ?? ""} placeholder="Fact..." onChange={(e) => setLocal({ ...local, fact: e.target.value })} onBlur={() => save({ fact: local.fact })} rows={2} className="w-full text-xs bg-input px-2 py-1 rounded resize-none" />
+        <textarea value={local.fact ?? ""} placeholder="Fun fact about this fish..." onChange={(e) => setLocal({ ...local, fact: e.target.value })} onBlur={() => save({ fact: local.fact })} rows={2} className="w-full text-xs bg-input px-2 py-1.5 rounded-lg border border-border resize-none" />
         <div className="flex justify-between items-center">
-          <input type="number" value={local.sort_order} onChange={(e) => setLocal({ ...local, sort_order: Number(e.target.value) })} onBlur={() => save({ sort_order: local.sort_order })} className="w-14 text-xs bg-input px-2 py-1 rounded" title="Sort" />
+          <input type="number" value={local.sort_order} onChange={(e) => setLocal({ ...local, sort_order: Number(e.target.value) })} onBlur={() => save({ sort_order: local.sort_order })} className="w-14 text-xs bg-input px-2 py-1 rounded-lg border border-border" title="Sort" />
           <button onClick={del} className="text-destructive hover:opacity-70"><Trash2 className="w-4 h-4" /></button>
         </div>
       </div>
@@ -230,19 +231,19 @@ const SubmissionsAdmin = ({ submissions, refresh }: { submissions: Submission[];
     <div className="space-y-3">
       {submissions.length === 0 && <p className="text-muted-foreground text-sm">No submissions yet.</p>}
       {submissions.map((s) => (
-        <div key={s.id} className="bg-card border border-border rounded-lg p-4 flex gap-4">
-          {s.photo_url && <img src={s.photo_url} alt="" className="w-20 h-20 rounded object-cover shrink-0" />}
+        <div key={s.id} className="bg-card border-2 border-border rounded-2xl p-4 flex gap-4">
+          {s.photo_url && <img src={s.photo_url} alt="" className="w-20 h-20 rounded-xl object-cover shrink-0" />}
           <div className="flex-1 min-w-0">
-            <div className="font-display text-sm uppercase">{s.species}</div>
-            <div className="text-xs text-muted-foreground">{s.profile?.display_name || "Unknown"} · {s.weight || "no weight"}</div>
+            <div className="font-display text-sm">{s.species}</div>
+            <div className="text-xs text-muted-foreground">{s.profile?.display_name || "Unknown"} -- {s.weight || "no weight"}</div>
             <div className="text-xs text-muted-foreground mt-1">{new Date(s.created_at).toLocaleDateString()}</div>
           </div>
-          <div className="flex flex-col gap-1 shrink-0">
-            <span className={`text-xs font-display uppercase ${s.status === "approved" ? "text-green-500" : s.status === "rejected" ? "text-red-500" : "text-yellow-500"}`}>{s.status}</span>
+          <div className="flex flex-col gap-1.5 shrink-0">
+            <span className={`text-xs font-display capitalize ${s.status === "approved" ? "text-green-500" : s.status === "rejected" ? "text-red-500" : "text-yellow-500"}`}>{s.status}</span>
             {s.status === "pending" && (
               <>
-                <button onClick={() => updateStatus(s.id, "approved")} className="text-xs bg-green-600 text-white px-2 py-1 rounded hover:opacity-90">Approve</button>
-                <button onClick={() => updateStatus(s.id, "rejected")} className="text-xs bg-destructive text-destructive-foreground px-2 py-1 rounded hover:opacity-90">Reject</button>
+                <button onClick={() => updateStatus(s.id, "approved")} className="text-xs bg-green-600 text-white px-3 py-1.5 rounded-lg hover:brightness-110">Approve</button>
+                <button onClick={() => updateStatus(s.id, "rejected")} className="text-xs bg-destructive text-destructive-foreground px-3 py-1.5 rounded-lg hover:brightness-110">Reject</button>
               </>
             )}
           </div>
@@ -270,7 +271,7 @@ const SendCards = ({ profiles }: { profiles: { user_id: string; display_name: st
         });
         if (error) throw error;
       }
-      toast.success(`Sent ${count} random ${rarity} card(s)!`);
+      toast.success(`Sent ${count} random ${rarityLabel[rarity]} card(s)!`);
     } catch (err: any) {
       toast.error(err.message);
     } finally {
@@ -279,27 +280,29 @@ const SendCards = ({ profiles }: { profiles: { user_id: string; display_name: st
   };
 
   return (
-    <div className="bg-card border border-border rounded-xl p-6 max-w-md">
-      <h3 className="font-display text-lg uppercase tracking-wider mb-4">Send Random Cards</h3>
+    <div className="bg-card border-2 border-border rounded-2xl p-6 max-w-md">
+      <h3 className="font-display text-xl mb-4">Send Random Cards</h3>
       <div className="space-y-4">
         <div>
-          <label className="text-xs font-display uppercase tracking-wider text-muted-foreground">Player</label>
-          <select value={targetUser} onChange={(e) => setTargetUser(e.target.value)} className="mt-1 w-full bg-input border border-border rounded px-3 py-2 text-sm">
+          <label className="text-sm font-display text-muted-foreground">Player</label>
+          <select value={targetUser} onChange={(e) => setTargetUser(e.target.value)} className="mt-1.5 w-full bg-input border-2 border-border rounded-xl px-4 py-2.5 text-sm">
             <option value="">Select player...</option>
             {profiles.map((p) => <option key={p.user_id} value={p.user_id}>{p.display_name || "Anonymous"}</option>)}
           </select>
         </div>
         <div>
-          <label className="text-xs font-display uppercase tracking-wider text-muted-foreground">Rarity</label>
-          <select value={rarity} onChange={(e) => setRarity(e.target.value as Rarity)} className="mt-1 w-full bg-input border border-border rounded px-3 py-2 text-sm">
-            <option value="common">Common</option><option value="rare">Rare</option><option value="epic">Epic</option><option value="legendary">Legendary</option>
+          <label className="text-sm font-display text-muted-foreground">Rarity</label>
+          <select value={rarity} onChange={(e) => setRarity(e.target.value as Rarity)} className="mt-1.5 w-full bg-input border-2 border-border rounded-xl px-4 py-2.5 text-sm">
+            {rarityOrder.map((r) => (
+              <option key={r} value={r}>{rarityLabel[r]}</option>
+            ))}
           </select>
         </div>
         <div>
-          <label className="text-xs font-display uppercase tracking-wider text-muted-foreground">How many</label>
-          <input type="number" min={1} max={20} value={count} onChange={(e) => setCount(Number(e.target.value))} className="mt-1 w-full bg-input border border-border rounded px-3 py-2 text-sm" />
+          <label className="text-sm font-display text-muted-foreground">How many</label>
+          <input type="number" min={1} max={20} value={count} onChange={(e) => setCount(Number(e.target.value))} className="mt-1.5 w-full bg-input border-2 border-border rounded-xl px-4 py-2.5 text-sm" />
         </div>
-        <button onClick={send} disabled={sending} className="w-full bg-primary text-primary-foreground font-display uppercase tracking-wider py-2.5 rounded text-sm hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2">
+        <button onClick={send} disabled={sending} className="w-full bg-primary text-primary-foreground font-display text-base py-3 rounded-xl hover:brightness-110 disabled:opacity-50 flex items-center justify-center gap-2 transition-all">
           <Send className="w-4 h-4" /> {sending ? "Sending..." : "Send Cards"}
         </button>
       </div>
