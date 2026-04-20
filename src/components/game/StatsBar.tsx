@@ -12,8 +12,7 @@ export const StatsBar = ({ userId }: { userId: string }) => {
       const { data } = await supabase.rpc("get_leaderboard");
       if (data) {
         const me = (data as any[]).find((r: any) => r.user_id === userId);
-        if (me) setStats(me);
-        else setStats({ total_power: 0, total_stealth: 0, total_beauty: 0, total_energy: 0, total_cards: 0 });
+        setStats(me ?? { total_power: 0, total_stealth: 0, total_beauty: 0, total_energy: 0, total_cards: 0 });
       }
     };
     load();
@@ -24,37 +23,45 @@ export const StatsBar = ({ userId }: { userId: string }) => {
   const totalScore = stats.total_power + stats.total_stealth + stats.total_beauty + stats.total_energy;
 
   const items = [
-    { label: "Power", value: stats.total_power, icon: <Zap className="w-5 h-5" />, color: "text-red-400", bg: "bg-red-400/10" },
-    { label: "Stealth", value: stats.total_stealth, icon: <Eye className="w-5 h-5" />, color: "text-blue-400", bg: "bg-blue-400/10" },
-    { label: "Beauty", value: stats.total_beauty, icon: <Sparkles className="w-5 h-5" />, color: "text-amber-400", bg: "bg-amber-400/10" },
-    { label: "Energy", value: stats.total_energy, icon: <Battery className="w-5 h-5" />, color: "text-green-400", bg: "bg-green-400/10" },
+    { label: "Power", value: stats.total_power, icon: Zap, color: "hsl(0 75% 55%)", bg: "hsl(0 90% 95%)" },
+    { label: "Stealth", value: stats.total_stealth, icon: Eye, color: "hsl(210 80% 50%)", bg: "hsl(210 90% 94%)" },
+    { label: "Beauty", value: stats.total_beauty, icon: Sparkles, color: "hsl(38 90% 45%)", bg: "hsl(45 95% 92%)" },
+    { label: "Energy", value: stats.total_energy, icon: Battery, color: "hsl(145 55% 40%)", bg: "hsl(145 65% 92%)" },
   ];
 
   return (
-    <div className="bg-card border-2 border-border rounded-2xl p-4">
-      <div className="flex items-center gap-3 mb-3">
-        <div className="bg-primary/20 rounded-full p-2">
-          <Star className="w-5 h-5 text-primary" />
-        </div>
-        <div>
-          <div className="font-display text-2xl text-primary leading-none">{totalScore}</div>
-          <div className="text-xs text-muted-foreground font-display">Total Score</div>
-        </div>
-        <div className="ml-auto text-right">
-          <div className="font-display text-lg text-foreground leading-none">{stats.total_cards}</div>
-          <div className="text-xs text-muted-foreground font-display">Cards</div>
-        </div>
-      </div>
-      <div className="grid grid-cols-4 gap-2">
-        {items.map((s) => (
-          <div key={s.label} className={`${s.bg} rounded-xl px-3 py-2 flex items-center gap-2`}>
-            <span className={s.color}>{s.icon}</span>
-            <div>
-              <div className="font-display text-sm leading-none">{s.value}</div>
-              <div className="text-[10px] text-muted-foreground">{s.label}</div>
-            </div>
+    <div className="paper-card p-4">
+      <div className="flex items-center gap-4 flex-wrap">
+        <div className="flex items-center gap-3">
+          <div className="w-14 h-14 rounded-full bg-primary border-4 border-white shadow-[0_4px_0_hsl(22_90%_40%)] flex items-center justify-center">
+            <Star className="w-7 h-7 text-white fill-white" strokeWidth={2} />
           </div>
-        ))}
+          <div>
+            <div className="font-display text-3xl text-foreground leading-none">{totalScore}</div>
+            <div className="font-hand text-lg text-muted-foreground leading-none mt-0.5">Total Score</div>
+          </div>
+        </div>
+
+        <div className="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-2 min-w-[260px]">
+          {items.map(({ label, value, icon: Icon, color, bg }) => (
+            <div
+              key={label}
+              className="rounded-2xl px-3 py-2 flex items-center gap-2 border-2"
+              style={{ background: bg, borderColor: color + "33" }}
+            >
+              <Icon className="w-5 h-5" style={{ color }} strokeWidth={2.5} />
+              <div>
+                <div className="font-display text-lg leading-none" style={{ color }}>{value}</div>
+                <div className="text-[10px] text-foreground/60 font-display uppercase tracking-wide">{label}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-right">
+          <div className="font-display text-2xl text-accent leading-none">{stats.total_cards}</div>
+          <div className="font-hand text-base text-muted-foreground leading-none mt-0.5">stickers</div>
+        </div>
       </div>
     </div>
   );

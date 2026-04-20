@@ -6,7 +6,7 @@ import { CatchSubmission } from "@/components/game/CatchSubmission";
 import { Leaderboard } from "@/components/game/Leaderboard";
 import { TradePanel } from "@/components/game/TradePanel";
 import { StatsBar } from "@/components/game/StatsBar";
-import { LogOut, BookOpen, Target, Trophy, ArrowLeftRight, Shield, Fish } from "lucide-react";
+import { LogOut, BookOpen, Camera, Trophy, ArrowLeftRight, Shield, Sparkles } from "lucide-react";
 
 type Tab = "collection" | "submit" | "leaderboard" | "trade";
 
@@ -22,7 +22,7 @@ const Index = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center sticker-page">
-        <div className="text-muted-foreground font-display text-lg">Loading your collection...</div>
+        <div className="font-hand text-3xl text-primary">Opening your sticker book...</div>
       </div>
     );
   }
@@ -30,39 +30,38 @@ const Index = () => {
   if (!user) return null;
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
-    { id: "collection", label: "My Book", icon: <BookOpen className="w-5 h-5" /> },
-    { id: "submit", label: "Submit Catch", icon: <Target className="w-5 h-5" /> },
-    { id: "leaderboard", label: "Leaderboard", icon: <Trophy className="w-5 h-5" /> },
-    { id: "trade", label: "Trade", icon: <ArrowLeftRight className="w-5 h-5" /> },
+    { id: "collection", label: "My Book", icon: <BookOpen className="w-4 h-4" /> },
+    { id: "submit", label: "Submit Catch", icon: <Camera className="w-4 h-4" /> },
+    { id: "leaderboard", label: "Leaderboard", icon: <Trophy className="w-4 h-4" /> },
+    { id: "trade", label: "Trade", icon: <ArrowLeftRight className="w-4 h-4" /> },
   ];
 
   return (
     <main className="min-h-screen sticker-page">
-      {/* Header */}
-      <header className="border-b-2 border-border bg-card/80 backdrop-blur-sm sticky top-0 z-50">
+      {/* Sky-blue header banner */}
+      <header className="sky-banner sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <Fish className="w-6 h-6 text-primary" />
-            <h1 className="font-display text-lg md:text-xl text-primary">
-              The Voyagers Chronicle
-            </h1>
-          </div>
           <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-primary border-3 border-white shadow-[0_3px_0_hsl(22_90%_40%)] flex items-center justify-center">
+              <Sparkles className="w-5 h-5 text-white" strokeWidth={2.5} />
+            </div>
+            <div>
+              <h1 className="font-display text-lg md:text-xl text-white drop-shadow leading-none">
+                The Voyagers Chronicle
+              </h1>
+              <p className="font-hand text-base text-white/90 leading-none mt-0.5">Sticker Book</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
             {isAdmin && (
-              <Link
-                to="/admin"
-                className="text-xs font-display text-muted-foreground hover:text-primary flex items-center gap-1.5"
-              >
-                <Shield className="w-4 h-4" />
+              <Link to="/admin" className="tab-pill !py-1.5 !px-3 text-xs flex items-center gap-1.5">
+                <Shield className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">Admin</span>
               </Link>
             )}
-            <button
-              onClick={signOut}
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              title="Sign out"
-            >
-              <LogOut className="w-4 h-4" />
+            <button onClick={signOut} className="tab-pill !py-1.5 !px-3 text-xs flex items-center gap-1.5" title="Sign out">
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Sign out</span>
             </button>
           </div>
         </div>
@@ -72,16 +71,12 @@ const Index = () => {
         <StatsBar userId={user.id} />
 
         {/* Tabs */}
-        <nav className="flex gap-1.5 mt-6 mb-6 bg-card/60 rounded-2xl p-1.5 border-2 border-border overflow-x-auto">
+        <nav className="flex gap-2 mt-6 mb-6 overflow-x-auto pb-2">
           {tabs.map((t) => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-display transition-all whitespace-nowrap ${
-                tab === t.id
-                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
-                  : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-              }`}
+              className={`tab-pill flex items-center gap-2 text-sm whitespace-nowrap ${tab === t.id ? "tab-pill-active" : ""}`}
             >
               {t.icon}
               {t.label}
@@ -89,7 +84,6 @@ const Index = () => {
           ))}
         </nav>
 
-        {/* Tab content */}
         {tab === "collection" && <CollectionGrid userId={user.id} />}
         {tab === "submit" && <CatchSubmission userId={user.id} />}
         {tab === "leaderboard" && <Leaderboard currentUserId={user.id} />}

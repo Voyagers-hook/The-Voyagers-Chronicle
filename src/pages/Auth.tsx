@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Fish } from "lucide-react";
+import { Mail, Sparkles } from "lucide-react";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -23,9 +23,7 @@ const Auth = () => {
     try {
       const { error } = await supabase.auth.signInWithOtp({
         email: email.trim(),
-        options: {
-          emailRedirectTo: window.location.origin,
-        },
+        options: { emailRedirectTo: window.location.origin },
       });
       if (error) throw error;
       setSent(true);
@@ -37,57 +35,50 @@ const Auth = () => {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-4 sticker-page">
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/20 mb-4">
-            <Fish className="w-10 h-10 text-primary" />
+    <main className="min-h-screen flex items-center justify-center px-4 py-10 sticker-page">
+      <div className="w-full max-w-md">
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-primary border-4 border-white shadow-[0_6px_0_hsl(22_90%_40%)] mb-4 -rotate-6">
+            <Sparkles className="w-12 h-12 text-white" strokeWidth={2.5} />
           </div>
-          <h1 className="font-display text-3xl text-primary tracking-tight">
+          <h1 className="font-display text-4xl text-foreground tracking-tight">
             The Voyagers Chronicle
           </h1>
-          <p className="text-muted-foreground text-sm mt-2">
-            Your digital fishing card collection
-          </p>
+          <p className="font-hand text-2xl text-primary mt-1">Your fishy sticker book!</p>
         </div>
 
         {sent ? (
-          <div className="bg-card border-2 border-primary/30 rounded-2xl p-8 text-center">
-            <div className="text-4xl mb-3">&#x2709;</div>
-            <h2 className="font-display text-xl text-foreground mb-2">Check your email!</h2>
-            <p className="text-sm text-muted-foreground">
-              We sent a magic link to <span className="text-primary font-semibold">{email}</span>. 
-              Click it to sign in.
+          <div className="paper-card p-8 text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent border-4 border-white shadow-[0_4px_0_hsl(210_80%_35%)] mb-3">
+              <Mail className="w-8 h-8 text-white" strokeWidth={2.5} />
+            </div>
+            <h2 className="font-display text-2xl text-foreground mb-2">Check your inbox!</h2>
+            <p className="text-muted-foreground">
+              We sent a magic link to <span className="text-primary font-bold">{email}</span>.
+              Click it to hop into your sticker book.
             </p>
-            <button
-              onClick={() => setSent(false)}
-              className="mt-4 text-sm text-primary hover:underline"
-            >
-              Try a different email
+            <button onClick={() => setSent(false)} className="mt-5 text-sm text-accent font-display hover:underline">
+              Use a different email
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="bg-card border-2 border-border rounded-2xl p-8 space-y-5">
+          <form onSubmit={handleSubmit} className="paper-card p-7 space-y-5">
             <div>
-              <label className="text-sm font-display text-muted-foreground">Email Address</label>
+              <label className="font-display text-sm text-foreground/80">Your email address</label>
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-2 w-full bg-input border-2 border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors"
-                placeholder="your.email@example.com"
+                className="mt-2 w-full bg-input border-2 border-border rounded-2xl px-5 py-3 text-base font-display focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all"
+                placeholder="you@example.com"
               />
             </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-primary text-primary-foreground font-display text-base py-3 rounded-xl hover:brightness-110 transition-all disabled:opacity-50"
-            >
-              {loading ? "Sending..." : "Send Magic Link"}
+            <button type="submit" disabled={loading} className="btn-bouncy w-full text-lg disabled:opacity-60">
+              {loading ? "Sending magic..." : "Send my magic link"}
             </button>
             <p className="text-xs text-center text-muted-foreground">
-              No password needed -- we'll email you a link to sign in
+              No password needed — we'll email you a link to sign in.
             </p>
           </form>
         )}

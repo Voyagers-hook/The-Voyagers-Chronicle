@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,125 +6,236 @@
 
 @layer base {
   :root {
-    --background: 220 45% 7%;
-    --foreground: 40 30% 96%;
+    /* Sticker book light theme: warm cream paper, sky blue accents, sunny orange */
+    --background: 38 60% 94%;
+    --foreground: 220 40% 18%;
 
-    --card: 220 40% 12%;
-    --card-foreground: 40 30% 96%;
+    --card: 40 70% 98%;
+    --card-foreground: 220 40% 18%;
 
-    --popover: 220 40% 12%;
-    --popover-foreground: 40 30% 96%;
+    --popover: 40 70% 98%;
+    --popover-foreground: 220 40% 18%;
 
-    --primary: 24 95% 53%;
+    --primary: 22 95% 55%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 35% 16%;
-    --secondary-foreground: 40 20% 90%;
+    --secondary: 200 75% 88%;
+    --secondary-foreground: 215 60% 25%;
 
-    --muted: 220 30% 20%;
-    --muted-foreground: 220 15% 55%;
+    --muted: 38 35% 88%;
+    --muted-foreground: 220 15% 40%;
 
-    --accent: 24 95% 53%;
+    --accent: 200 85% 55%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 51%;
+    --destructive: 0 75% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 25% 22%;
-    --input: 220 30% 18%;
-    --ring: 24 95% 53%;
+    --border: 30 40% 78%;
+    --input: 40 60% 96%;
+    --ring: 22 95% 55%;
 
-    --radius: 0.75rem;
+    --radius: 1.25rem;
 
-    --rarity-widespread: 200 15% 50%;
-    --rarity-elusive: 210 75% 55%;
-    --rarity-specimen: 42 90% 55%;
-    --rarity-rare: 280 65% 58%;
-    --rarity-super-rare: 0 85% 60%;
+    /* Rarity tiers */
+    --rarity-widespread: 145 50% 45%;   /* leafy green */
+    --rarity-elusive: 210 80% 55%;      /* silver-blue */
+    --rarity-specimen: 42 95% 52%;      /* gold */
+    --rarity-rare: 285 70% 55%;         /* royal purple */
+    --rarity-super-rare: 0 85% 58%;     /* fiery red */
 
-    --sidebar-background: 220 40% 10%;
-    --sidebar-foreground: 40 20% 90%;
-    --sidebar-primary: 24 95% 53%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 30% 20%;
-    --sidebar-accent-foreground: 40 20% 90%;
-    --sidebar-border: 220 25% 22%;
-    --sidebar-ring: 24 95% 53%;
+    /* Page accents */
+    --paper: 38 60% 94%;
+    --paper-edge: 30 45% 80%;
+    --sky: 200 90% 75%;
+    --sky-deep: 210 85% 60%;
   }
 }
 
 @layer base {
   * { @apply border-border; }
+  html, body { background-color: hsl(var(--background)); }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
     font-family: 'Nunito', system-ui, sans-serif;
+    font-weight: 600;
   }
   h1, h2, h3, h4, .font-display {
     font-family: 'Fredoka', 'Nunito', sans-serif;
     font-weight: 600;
   }
+  .font-hand {
+    font-family: 'Caveat', 'Fredoka', cursive;
+    font-weight: 600;
+  }
 }
 
-/* Sticker book page texture */
+/* ========== Sticker book paper ========== */
 .sticker-page {
-  background-image: 
-    radial-gradient(circle at 20% 50%, hsl(220 40% 14%) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, hsl(220 35% 15%) 0%, transparent 40%);
+  background-color: hsl(var(--paper));
+  background-image:
+    radial-gradient(hsl(30 35% 78% / 0.35) 1px, transparent 1.5px),
+    radial-gradient(hsl(30 35% 70% / 0.18) 1px, transparent 1.5px);
+  background-size: 22px 22px, 44px 44px;
+  background-position: 0 0, 11px 11px;
 }
 
-/* Card slot - empty placeholder in sticker book */
+.paper-card {
+  background: hsl(var(--card));
+  border: 2px solid hsl(var(--paper-edge));
+  border-radius: 1.25rem;
+  box-shadow:
+    0 1px 0 hsl(0 0% 100%) inset,
+    0 4px 0 hsl(var(--paper-edge) / 0.5),
+    0 8px 18px hsl(220 30% 30% / 0.08);
+}
+
+/* Sky-blue header banner */
+.sky-banner {
+  background: linear-gradient(180deg, hsl(var(--sky)) 0%, hsl(var(--sky-deep)) 100%);
+  border-bottom: 4px solid hsl(210 70% 45%);
+  box-shadow: 0 4px 0 hsl(210 70% 40% / 0.3);
+}
+
+/* Section banners (per rarity) — like sticker album page headers */
+.section-banner {
+  position: relative;
+  padding: 0.85rem 1.25rem;
+  border-radius: 1.25rem;
+  border: 3px solid;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+  box-shadow: 0 4px 0 hsl(0 0% 0% / 0.08);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.section-banner::before {
+  content: "";
+  width: 1rem; height: 1rem; border-radius: 999px;
+  background: currentColor;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+/* Card sticker slot — empty placeholder */
 .card-slot-empty {
-  border: 2px dashed hsl(var(--muted-foreground) / 0.3);
-  background: hsl(var(--muted) / 0.3);
+  border: 3px dashed hsl(var(--paper-edge));
+  background: hsl(40 50% 92%);
+  border-radius: 1rem;
+}
+
+/* ========== Sticker (collected card) ========== */
+.sticker {
+  position: relative;
+  background: hsl(var(--card));
+  border-radius: 1.25rem;
+  border: 4px solid hsl(0 0% 100%);
+  outline: 2px solid hsl(var(--paper-edge));
+  box-shadow:
+    0 6px 0 hsl(220 30% 30% / 0.08),
+    0 12px 24px hsl(220 30% 30% / 0.12);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+  transform: rotate(var(--tilt, 0deg));
+}
+.sticker:hover {
+  transform: rotate(0deg) translateY(-4px) scale(1.04);
+  box-shadow:
+    0 10px 0 hsl(220 30% 30% / 0.1),
+    0 20px 36px hsl(220 30% 30% / 0.18);
 }
 
 @layer utilities {
-  .card-rarity-common { 
-    border-color: hsl(var(--rarity-widespread)); 
-    box-shadow: 0 4px 12px hsl(var(--rarity-widespread) / 0.15);
-  }
-  .card-rarity-rare { 
-    border-color: hsl(var(--rarity-elusive)); 
-    box-shadow: 0 4px 16px hsl(var(--rarity-elusive) / 0.2);
-  }
-  .card-rarity-epic { 
-    border-color: hsl(var(--rarity-specimen)); 
-    box-shadow: 0 4px 20px hsl(var(--rarity-specimen) / 0.25);
-  }
-  .card-rarity-legendary { 
-    border-color: hsl(var(--rarity-rare)); 
-    box-shadow: 0 4px 24px hsl(var(--rarity-rare) / 0.3);
-  }
-  .card-rarity-super_rare { 
-    border-color: hsl(var(--rarity-super-rare)); 
-    box-shadow: 0 0 30px hsl(var(--rarity-super-rare) / 0.4), 0 0 60px hsl(var(--rarity-super-rare) / 0.15);
-    animation: superRareGlow 2s ease-in-out infinite alternate;
+  /* Rarity-tinted sticker outlines */
+  .card-rarity-common    { outline-color: hsl(var(--rarity-widespread)); }
+  .card-rarity-rare      { outline-color: hsl(var(--rarity-elusive)); }
+  .card-rarity-epic      { outline-color: hsl(var(--rarity-specimen)); box-shadow: 0 6px 0 hsl(var(--rarity-specimen) / 0.25), 0 12px 24px hsl(var(--rarity-specimen) / 0.2); }
+  .card-rarity-legendary { outline-color: hsl(var(--rarity-rare)); box-shadow: 0 6px 0 hsl(var(--rarity-rare) / 0.3), 0 12px 24px hsl(var(--rarity-rare) / 0.25); }
+  .card-rarity-super_rare {
+    outline-color: hsl(var(--rarity-super-rare));
+    background:
+      linear-gradient(135deg, hsl(50 100% 75% / 0.5), hsl(0 90% 75% / 0.5), hsl(280 80% 78% / 0.5)),
+      hsl(var(--card));
+    animation: shineRare 3s ease-in-out infinite;
   }
 
-  @keyframes superRareGlow {
-    from { box-shadow: 0 0 20px hsl(var(--rarity-super-rare) / 0.3), 0 0 40px hsl(var(--rarity-super-rare) / 0.1); }
-    to { box-shadow: 0 0 30px hsl(var(--rarity-super-rare) / 0.5), 0 0 60px hsl(var(--rarity-super-rare) / 0.2); }
+  @keyframes shineRare {
+    0%, 100% { filter: brightness(1) saturate(1); }
+    50% { filter: brightness(1.08) saturate(1.2); }
   }
 
-  .chip-common { background: hsl(var(--rarity-widespread)); color: white; }
-  .chip-rare { background: hsl(var(--rarity-elusive)); color: white; }
-  .chip-epic { background: hsl(var(--rarity-specimen)); color: hsl(220 40% 12%); }
-  .chip-legendary { background: linear-gradient(135deg, hsl(280 65% 58%), hsl(300 60% 65%)); color: white; }
-  .chip-super_rare { background: linear-gradient(135deg, hsl(0 85% 60%), hsl(30 90% 55%), hsl(50 90% 55%)); color: white; animation: shimmer 3s ease-in-out infinite; }
-
-  @keyframes shimmer {
-    0%, 100% { filter: brightness(1); }
-    50% { filter: brightness(1.2); }
+  /* Rarity chips */
+  .chip {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    padding: 0.2rem 0.6rem; border-radius: 999px;
+    font-family: 'Fredoka', sans-serif; font-weight: 600;
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em;
+    border: 2px solid hsl(0 0% 100%);
+    box-shadow: 0 2px 0 hsl(0 0% 0% / 0.12);
   }
-}
+  .chip-common    { background: hsl(var(--rarity-widespread)); color: white; }
+  .chip-rare      { background: hsl(var(--rarity-elusive)); color: white; }
+  .chip-epic      { background: hsl(var(--rarity-specimen)); color: hsl(40 80% 15%); }
+  .chip-legendary { background: linear-gradient(135deg, hsl(285 70% 55%), hsl(310 70% 65%)); color: white; }
+  .chip-super_rare{ background: linear-gradient(135deg, hsl(0 85% 58%), hsl(35 95% 58%), hsl(50 100% 60%)); color: white; }
 
-/* Section dividers for sticker book */
-.section-banner {
-  position: relative;
-  padding: 0.75rem 1.5rem;
-  border-radius: 1rem;
-  font-family: 'Fredoka', sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  /* Big bouncy button */
+  .btn-bouncy {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    border: 3px solid hsl(0 0% 100%);
+    border-radius: 999px;
+    padding: 0.75rem 1.5rem;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    box-shadow: 0 5px 0 hsl(22 90% 40%), 0 8px 18px hsl(22 90% 40% / 0.3);
+    transition: transform 100ms ease, box-shadow 100ms ease;
+  }
+  .btn-bouncy:hover { transform: translateY(-2px); box-shadow: 0 7px 0 hsl(22 90% 40%), 0 10px 22px hsl(22 90% 40% / 0.4); }
+  .btn-bouncy:active { transform: translateY(3px); box-shadow: 0 2px 0 hsl(22 90% 40%); }
+
+  .btn-bouncy-blue {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+    border: 3px solid hsl(0 0% 100%);
+    border-radius: 999px;
+    padding: 0.75rem 1.5rem;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    box-shadow: 0 5px 0 hsl(210 80% 35%), 0 8px 18px hsl(210 80% 35% / 0.3);
+    transition: transform 100ms ease, box-shadow 100ms ease;
+  }
+  .btn-bouncy-blue:hover { transform: translateY(-2px); box-shadow: 0 7px 0 hsl(210 80% 35%), 0 10px 22px hsl(210 80% 35% / 0.4); }
+  .btn-bouncy-blue:active { transform: translateY(3px); box-shadow: 0 2px 0 hsl(210 80% 35%); }
+
+  /* Tab pill */
+  .tab-pill {
+    background: hsl(var(--card));
+    border: 3px solid hsl(var(--paper-edge));
+    border-radius: 999px;
+    padding: 0.55rem 1.1rem;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    box-shadow: 0 3px 0 hsl(var(--paper-edge));
+    color: hsl(var(--foreground));
+    transition: transform 100ms ease;
+  }
+  .tab-pill:hover { transform: translateY(-1px); }
+  .tab-pill-active {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    border-color: hsl(0 0% 100%);
+    box-shadow: 0 3px 0 hsl(22 90% 40%);
+  }
+
+  /* Tape strip — for sticker corners */
+  .tape {
+    position: absolute;
+    width: 50px; height: 16px;
+    background: hsl(50 90% 75% / 0.7);
+    border: 1px solid hsl(45 70% 65% / 0.5);
+    top: -8px; left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    box-shadow: 0 1px 3px hsl(0 0% 0% / 0.1);
+  }
 }
