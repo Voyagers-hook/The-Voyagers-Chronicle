@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import type { Session } from "@supabase/supabase-js";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -10,11 +11,36 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
+  const [verifyingLink, setVerifyingLink] = useState(
+    () => window.location.hash.includes("access_token") || window.location.hash.includes("refresh_token"),
+  );
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) navigate("/");
+    let isMounted = true;
+
+    const handleSession = (session: Session | null) => {
+      if (!isMounted) return;
+      if (session) {
+        navigate("/", { replace: true });
+        return;
+      }
+      setVerifyingLink(false);
+    };
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      handleSession(session);
     });
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      handleSession(session);
+    });
+
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
   }, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -24,7 +50,7 @@ const Auth = () => {
     try {
       const { error } = await supabase.auth.signInWithOtp({
         email: email.trim(),
-        options: { emailRedirectTo: window.location.origin },
+          options: { emailRedirectTo: `${window.location.origin}/auth` },
       });
       if (error) throw error;
       setSent(true);
@@ -46,7 +72,12 @@ const Auth = () => {
           <p className="text-base text-muted-foreground mt-1">Digital trading card collection</p>
         </div>
 
-        {sent ? (
+        {verifyingLink ? (
+          <div className="panel p-8 text-center">
+            <h2 className="font-display text-2xl text-foreground mb-2">Signing you in</h2>
+            <p className="text-muted-foreground">Finishing your magic link…</p>
+          </div>
+        ) : sent ? (
           <div className="panel p-8 text-center">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent border-4 border-white shadow-[0_4px_0_hsl(188_85%_28%)] mb-3">
               <Mail className="w-8 h-8 text-white" strokeWidth={2.5} />

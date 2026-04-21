@@ -9,42 +9,44 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Set up listener BEFORE getting session
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, sess) => {
+    let isMounted = true;
+
+    const syncAuthState = async (sess: Session | null) => {
+      if (!isMounted) return;
+
       setSession(sess);
       setUser(sess?.user ?? null);
-      if (sess?.user) {
-        // defer to avoid deadlock
-        setTimeout(async () => {
-          const { data } = await supabase
-            .from("user_roles")
-            .select("role")
-            .eq("user_id", sess.user.id)
-            .eq("role", "admin")
-            .maybeSingle();
-          setIsAdmin(!!data);
-        }, 0);
-      } else {
+
+      if (!sess?.user) {
         setIsAdmin(false);
+        setLoading(false);
+        return;
       }
+
+      const { data } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", sess.user.id)
+        .eq("role", "admin")
+        .maybeSingle();
+
+      if (!isMounted) return;
+      setIsAdmin(!!data);
+      setLoading(false);
+    };
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, sess) => {
+      void syncAuthState(sess);
     });
 
     supabase.auth.getSession().then(({ data: { session: sess } }) => {
-      setSession(sess);
-      setUser(sess?.user ?? null);
-      setLoading(false);
-      if (sess?.user) {
-        supabase
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", sess.user.id)
-          .eq("role", "admin")
-          .maybeSingle()
-          .then(({ data }) => setIsAdmin(!!data));
-      }
+      void syncAuthState(sess);
     });
 
-    return () => sub.subscription.unsubscribe();
+    return () => {
+      isMounted = false;
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   const signOut = () => supabase.auth.signOut();
