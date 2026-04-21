@@ -175,18 +175,24 @@ export type Database = {
           card_id: string
           id: string
           obtained_at: string
+          revealed: boolean
+          slot_position: number | null
           user_id: string
         }
         Insert: {
           card_id: string
           id?: string
           obtained_at?: string
+          revealed?: boolean
+          slot_position?: number | null
           user_id: string
         }
         Update: {
           card_id?: string
           id?: string
           obtained_at?: string
+          revealed?: boolean
+          slot_position?: number | null
           user_id?: string
         }
         Relationships: [

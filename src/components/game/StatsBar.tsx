@@ -30,15 +30,15 @@ export const StatsBar = ({ userId }: { userId: string }) => {
   ];
 
   return (
-    <div className="paper-card p-4">
+    <div className="panel p-4">
       <div className="flex items-center gap-4 flex-wrap">
         <div className="flex items-center gap-3">
-          <div className="w-14 h-14 rounded-full bg-primary border-4 border-white shadow-[0_4px_0_hsl(22_90%_40%)] flex items-center justify-center">
+          <div className="w-14 h-14 rounded-xl bg-primary border-2 border-white shadow-[0_4px_0_hsl(22_90%_38%)] flex items-center justify-center">
             <Star className="w-7 h-7 text-white fill-white" strokeWidth={2} />
           </div>
           <div>
             <div className="font-display text-3xl text-foreground leading-none">{totalScore}</div>
-            <div className="font-hand text-lg text-muted-foreground leading-none mt-0.5">Total Score</div>
+            <div className="text-xs text-muted-foreground uppercase tracking-wide mt-1 font-display">Total Score</div>
           </div>
         </div>
 
@@ -46,7 +46,7 @@ export const StatsBar = ({ userId }: { userId: string }) => {
           {items.map(({ label, value, icon: Icon, color, bg }) => (
             <div
               key={label}
-              className="rounded-2xl px-3 py-2 flex items-center gap-2 border-2"
+              className="rounded-xl px-3 py-2 flex items-center gap-2 border-2"
               style={{ background: bg, borderColor: color + "33" }}
             >
               <Icon className="w-5 h-5" style={{ color }} strokeWidth={2.5} />
@@ -60,7 +60,7 @@ export const StatsBar = ({ userId }: { userId: string }) => {
 
         <div className="text-right">
           <div className="font-display text-2xl text-accent leading-none">{stats.total_cards}</div>
-          <div className="font-hand text-base text-muted-foreground leading-none mt-0.5">stickers</div>
+          <div className="text-xs text-muted-foreground uppercase tracking-wide mt-1 font-display">Cards</div>
         </div>
       </div>
     </div>

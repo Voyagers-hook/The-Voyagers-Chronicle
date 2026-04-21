@@ -12,36 +12,31 @@ export const rarityOrder: Rarity[] = ["common", "rare", "epic", "legendary", "su
 
 export const raritySectionInfo: Record<
   Rarity,
-  { title: string; subtitle: string; color: string; bannerBg: string }
+  { title: string; subtitle: string; color: string }
 > = {
   common: {
     title: "Widespread",
-    subtitle: "The friendly fish you'll find in every pond and stream",
-    color: "hsl(145 50% 38%)",
-    bannerBg: "bg-[hsl(145,55%,88%)]",
+    subtitle: "The common catches you'll find everywhere",
+    color: "hsl(145 55% 42%)",
   },
   rare: {
     title: "Elusive",
-    subtitle: "Trickier to spot — silver-scaled and quick!",
-    color: "hsl(210 80% 45%)",
-    bannerBg: "bg-[hsl(210,85%,90%)]",
+    subtitle: "Silver-tier — harder to find",
+    color: "hsl(210 80% 52%)",
   },
   epic: {
     title: "Specimen",
-    subtitle: "The big golden ones that make your arms ache",
-    color: "hsl(38 90% 40%)",
-    bannerBg: "bg-[hsl(45,95%,88%)]",
+    subtitle: "Gold-tier trophies",
+    color: "hsl(42 95% 50%)",
   },
   legendary: {
     title: "Rare",
-    subtitle: "Most fishers will never see one of these beauties",
-    color: "hsl(285 70% 45%)",
-    bannerBg: "bg-[hsl(285,75%,92%)]",
+    subtitle: "Seldom-seen beauties",
+    color: "hsl(285 70% 52%)",
   },
   super_rare: {
     title: "Super Rare",
-    subtitle: "Legendary catches — only the luckiest find these!",
-    color: "hsl(0 80% 50%)",
-    bannerBg: "bg-gradient-to-r from-[hsl(50,100%,88%)] via-[hsl(20,95%,90%)] to-[hsl(0,90%,90%)]",
+    subtitle: "Legendary pulls — the top tier",
+    color: "hsl(0 85% 55%)",
   },
 };
