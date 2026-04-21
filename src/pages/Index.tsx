@@ -6,7 +6,8 @@ import { CatchSubmission } from "@/components/game/CatchSubmission";
 import { Leaderboard } from "@/components/game/Leaderboard";
 import { TradePanel } from "@/components/game/TradePanel";
 import { StatsBar } from "@/components/game/StatsBar";
-import { LogOut, BookOpen, Camera, Trophy, ArrowLeftRight, Shield, Sparkles } from "lucide-react";
+import { Logo } from "@/components/game/Logo";
+import { LogOut, BookOpen, Camera, Trophy, ArrowLeftRight, Shield } from "lucide-react";
 
 type Tab = "collection" | "submit" | "leaderboard" | "trade";
 
@@ -21,8 +22,8 @@ const Index = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center sticker-page">
-        <div className="font-hand text-3xl text-primary">Opening your sticker book...</div>
+      <div className="min-h-screen flex items-center justify-center tcg-felt">
+        <div className="font-display text-xl text-muted-foreground">Loading...</div>
       </div>
     );
   }
@@ -30,26 +31,23 @@ const Index = () => {
   if (!user) return null;
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
-    { id: "collection", label: "My Book", icon: <BookOpen className="w-4 h-4" /> },
+    { id: "collection", label: "Collection", icon: <BookOpen className="w-4 h-4" /> },
     { id: "submit", label: "Submit Catch", icon: <Camera className="w-4 h-4" /> },
     { id: "leaderboard", label: "Leaderboard", icon: <Trophy className="w-4 h-4" /> },
     { id: "trade", label: "Trade", icon: <ArrowLeftRight className="w-4 h-4" /> },
   ];
 
   return (
-    <main className="min-h-screen sticker-page">
-      {/* Sky-blue header banner */}
-      <header className="sky-banner sticky top-0 z-40">
+    <main className="min-h-screen tcg-felt">
+      <header className="topbar sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-primary border-3 border-white shadow-[0_3px_0_hsl(22_90%_40%)] flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" strokeWidth={2.5} />
-            </div>
+            <Logo className="w-12 h-12" />
             <div>
-              <h1 className="font-display text-lg md:text-xl text-white drop-shadow leading-none">
+              <h1 className="font-display text-lg md:text-xl text-white leading-none">
                 The Voyagers Chronicle
               </h1>
-              <p className="font-hand text-base text-white/90 leading-none mt-0.5">Sticker Book</p>
+              <p className="text-xs text-white/70 leading-none mt-1">Digital trading card collection</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -70,7 +68,6 @@ const Index = () => {
       <div className="max-w-6xl mx-auto px-4 py-6">
         <StatsBar userId={user.id} />
 
-        {/* Tabs */}
         <nav className="flex gap-2 mt-6 mb-6 overflow-x-auto pb-2">
           {tabs.map((t) => (
             <button
