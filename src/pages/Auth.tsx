@@ -50,7 +50,7 @@ const Auth = () => {
     try {
       const { error } = await supabase.auth.signInWithOtp({
         email: email.trim(),
-          options: { emailRedirectTo: `${window.location.origin}/auth` },
+          options: { emailRedirectTo: `${window.location.origin}/` },
       });
       if (error) throw error;
       setSent(true);

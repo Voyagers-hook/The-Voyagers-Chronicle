@@ -39,10 +39,6 @@ export const useAuth = () => {
       void syncAuthState(sess);
     });
 
-    supabase.auth.getSession().then(({ data: { session: sess } }) => {
-      void syncAuthState(sess);
-    });
-
     return () => {
       isMounted = false;
       sub.subscription.unsubscribe();
