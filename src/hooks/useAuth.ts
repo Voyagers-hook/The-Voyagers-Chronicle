@@ -39,6 +39,11 @@ export const useAuth = () => {
       void syncAuthState(sess);
     });
 
+    // Ensure we compute admin state on initial load (not only on auth events).
+    void supabase.auth.getSession().then(({ data: { session: sess } }) => {
+      void syncAuthState(sess);
+    });
+
     return () => {
       isMounted = false;
       sub.subscription.unsubscribe();

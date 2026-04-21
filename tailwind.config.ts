@@ -38,8 +38,8 @@ export default {
         },
       },
       fontFamily: {
-        display: ["'Chakra Petch'", "'DM Sans'", "sans-serif"],
-        body: ["'DM Sans'", "system-ui", "sans-serif"],
+        display: ["'Fredoka'", "'Nunito'", "system-ui", "sans-serif"],
+        body: ["'Nunito'", "system-ui", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

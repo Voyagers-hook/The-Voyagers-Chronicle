@@ -7,9 +7,12 @@ import { Leaderboard } from "@/components/game/Leaderboard";
 import { TradePanel } from "@/components/game/TradePanel";
 import { StatsBar } from "@/components/game/StatsBar";
 import { Logo } from "@/components/game/Logo";
-import { LogOut, BookOpen, Camera, Trophy, ArrowLeftRight, Shield } from "lucide-react";
+import { FunFacts } from "@/components/game/FunFacts";
+import { Quiz } from "@/components/game/Quiz";
+import { AdminAccessHelper } from "@/components/game/AdminAccessHelper";
+import { LogOut, BookOpen, Camera, Trophy, ArrowLeftRight, Shield, Sparkles, HelpCircle } from "lucide-react";
 
-type Tab = "collection" | "submit" | "leaderboard" | "trade";
+type Tab = "collection" | "submit" | "leaderboard" | "trade" | "facts" | "quiz";
 
 const Index = () => {
   const { user, isAdmin, loading, signOut } = useAuth();
@@ -35,6 +38,8 @@ const Index = () => {
     { id: "submit", label: "Submit Catch", icon: <Camera className="w-4 h-4" /> },
     { id: "leaderboard", label: "Leaderboard", icon: <Trophy className="w-4 h-4" /> },
     { id: "trade", label: "Trade", icon: <ArrowLeftRight className="w-4 h-4" /> },
+    { id: "facts", label: "Fun Facts", icon: <Sparkles className="w-4 h-4" /> },
+    { id: "quiz", label: "Quiz", icon: <HelpCircle className="w-4 h-4" /> },
   ];
 
   return (
@@ -68,12 +73,12 @@ const Index = () => {
       <div className="max-w-6xl mx-auto px-4 py-6">
         <StatsBar userId={user.id} />
 
-        <nav className="flex gap-2 mt-6 mb-6 overflow-x-auto pb-2">
+        <nav className="chapter-nav flex gap-1.5 mt-6 mb-6 overflow-x-auto">
           {tabs.map((t) => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
-              className={`tab-pill flex items-center gap-2 text-sm whitespace-nowrap ${tab === t.id ? "tab-pill-active" : ""}`}
+              className={`chapter-btn text-sm ${tab === t.id ? "chapter-btn-active" : ""}`}
             >
               {t.icon}
               {t.label}
@@ -85,6 +90,10 @@ const Index = () => {
         {tab === "submit" && <CatchSubmission userId={user.id} />}
         {tab === "leaderboard" && <Leaderboard currentUserId={user.id} />}
         {tab === "trade" && <TradePanel userId={user.id} />}
+        {tab === "facts" && <FunFacts userId={user.id} />}
+        {tab === "quiz" && <Quiz userId={user.id} />}
+
+        {!isAdmin && <AdminAccessHelper userId={user.id} email={user.email ?? ""} />}
       </div>
     </main>
   );

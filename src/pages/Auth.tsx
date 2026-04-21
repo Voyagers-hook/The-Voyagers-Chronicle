@@ -48,9 +48,10 @@ const Auth = () => {
     if (!email.trim()) return;
     setLoading(true);
     try {
+      const redirectTo = import.meta.env.VITE_SITE_URL || window.location.origin;
       const { error } = await supabase.auth.signInWithOtp({
         email: email.trim(),
-          options: { emailRedirectTo: `${window.location.origin}/` },
+        options: { emailRedirectTo: `${redirectTo}/` },
       });
       if (error) throw error;
       setSent(true);

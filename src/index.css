@@ -44,6 +44,11 @@
     --rarity-rare: 285 70% 52%;         /* royal purple */
     --rarity-super-rare: 0 85% 55%;     /* fiery red */
 
+    /* Aliases (used by some Tailwind tokens) */
+    --rarity-common: var(--rarity-widespread);
+    --rarity-epic: var(--rarity-specimen);
+    --rarity-legendary: var(--rarity-rare);
+
     /* Brand */
     --ink: 210 50% 12%;
     --teal: 188 85% 42%;
@@ -57,7 +62,7 @@
   body {
     @apply text-foreground;
     font-family: 'Nunito', system-ui, sans-serif;
-    font-weight: 600;
+    font-weight: 500;
   }
   h1, h2, h3, h4, .font-display {
     font-family: 'Fredoka', 'Nunito', sans-serif;
@@ -74,10 +79,10 @@
 .tcg-felt {
   background-color: hsl(var(--felt));
   background-image:
-    radial-gradient(circle at 20% 10%, hsl(188 85% 80% / 0.45), transparent 45%),
-    radial-gradient(circle at 85% 85%, hsl(22 95% 80% / 0.35), transparent 45%),
-    radial-gradient(hsl(200 40% 70% / 0.18) 1px, transparent 1.5px);
-  background-size: auto, auto, 28px 28px;
+    radial-gradient(circle at 20% 10%, hsl(188 85% 80% / 0.32), transparent 48%),
+    radial-gradient(circle at 85% 85%, hsl(22 95% 80% / 0.26), transparent 48%),
+    radial-gradient(hsl(200 40% 70% / 0.10) 1px, transparent 1.5px);
+  background-size: auto, auto, 44px 44px;
 }
 
 .panel {
@@ -86,8 +91,8 @@
   border-radius: 1.25rem;
   box-shadow:
     0 1px 0 hsl(0 0% 100%) inset,
-    0 6px 0 hsl(var(--ink) / 0.08),
-    0 16px 32px hsl(var(--ink) / 0.08);
+    0 4px 0 hsl(var(--ink) / 0.06),
+    0 14px 28px hsl(var(--ink) / 0.07);
 }
 
 /* Top bar */
@@ -203,8 +208,10 @@
   aspect-ratio: 3 / 4;
   border: 3px dashed hsl(var(--border));
   background:
-    repeating-linear-gradient(45deg, hsl(200 30% 88% / 0.4) 0 8px, transparent 8px 16px),
-    hsl(0 0% 100% / 0.4);
+    radial-gradient(circle at 30% 20%, hsl(188 85% 70% / 0.22), transparent 60%),
+    radial-gradient(circle at 80% 80%, hsl(22 95% 70% / 0.18), transparent 60%),
+    repeating-linear-gradient(45deg, hsl(200 30% 88% / 0.35) 0 10px, transparent 10px 20px),
+    hsl(0 0% 100% / 0.35);
   border-radius: 1rem;
   display: flex;
   align-items: center;
@@ -215,6 +222,39 @@
   font-size: 0.75rem;
   text-align: center;
   padding: 0.5rem;
+  transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
+}
+.slot-empty:hover {
+  transform: translateY(-2px) scale(1.02);
+  border-color: hsl(var(--primary) / 0.55);
+}
+
+.slot-ghost {
+  width: 72%;
+  height: 68%;
+  border-radius: 0.85rem;
+  border: 2px solid hsl(var(--ink) / 0.08);
+  background: linear-gradient(180deg, hsl(0 0% 100% / 0.35), hsl(0 0% 100% / 0.18));
+  box-shadow: 0 10px 18px hsl(var(--ink) / 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.slot-ghost::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle at 50% 50%, hsl(22 95% 60% / 0.14), transparent 55%);
+  transform: rotate(12deg);
+}
+.slot-ghost .q {
+  position: relative;
+  font-size: 3.4rem;
+  line-height: 1;
+  color: hsl(var(--ink) / 0.16);
+  text-shadow: 0 2px 0 hsl(0 0% 100% / 0.6);
 }
 
 /* Sealed (unopened) card back */
@@ -329,6 +369,34 @@
     border-color: hsl(var(--ink) / 0.15);
     box-shadow: 0 3px 0 hsl(22 90% 38%);
   }
+
+/* Main "chapter" navigation */
+.chapter-nav {
+  background: hsl(var(--card) / 0.7);
+  border: 2px solid hsl(var(--border));
+  border-radius: 1.25rem;
+  padding: 0.5rem;
+  box-shadow: 0 10px 20px hsl(var(--ink) / 0.06);
+}
+.chapter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.7rem 1rem;
+  border-radius: 1rem;
+  border: 2px solid transparent;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  transition: transform 120ms ease, background-color 120ms ease, border-color 120ms ease;
+  white-space: nowrap;
+}
+.chapter-btn:hover { transform: translateY(-1px); background: hsl(var(--muted) / 0.7); }
+.chapter-btn-active {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border-color: hsl(var(--ink) / 0.12);
+  box-shadow: 0 6px 0 hsl(22 90% 38%);
+}
 
   /* Card flip animation */
   .flip-reveal {

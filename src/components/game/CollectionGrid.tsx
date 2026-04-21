@@ -14,6 +14,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { toast } from "sonner";
 import { Sparkles } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
 type UserCard = {
   id: string;
@@ -48,8 +49,11 @@ const SortableSlot = ({ item, onClick, justRevealedId }: { item: SlotItem; onCli
       {item.kind === "empty" && (
         <div className="slot-empty">
           <div className="text-center opacity-70">
+            <div className="slot-ghost mx-auto mb-2">
+              <div className="q">?</div>
+            </div>
             <div className="font-display truncate max-w-full px-1">{item.card.name}</div>
-            <div className="text-[10px] mt-1 opacity-60">Not yet</div>
+            <div className="text-[10px] mt-1 opacity-70 uppercase tracking-wide">Find it!</div>
           </div>
         </div>
       )}
@@ -176,22 +180,32 @@ export const CollectionGrid = ({ userId }: { userId: string }) => {
 
   const totalOwned = ownedByCardId.size;
   const totalCards = allCards.length;
+  const progress = totalCards > 0 ? Math.round((totalOwned / totalCards) * 100) : 0;
 
   return (
     <>
       {/* Header stats */}
-      <div className="panel p-5 mb-6 flex items-center justify-between flex-wrap gap-4">
-        <div>
-          <div className="font-display text-2xl text-foreground leading-none">My Collection</div>
-          <div className="text-sm text-muted-foreground mt-1.5">
-            Drag cards to arrange your binder. Tap a sealed pack to reveal it.
+      <div className="panel p-5 mb-6">
+        <div className="flex items-start justify-between flex-wrap gap-4">
+          <div>
+            <div className="font-display text-2xl text-foreground leading-none">Adventure Binder</div>
+            <div className="text-sm text-muted-foreground mt-1.5">
+              Drag to tidy your pages. Tap a sealed pack to reveal a surprise.
+            </div>
+          </div>
+          <div className="flex items-center gap-2 bg-primary/10 rounded-2xl px-4 py-2 border-2 border-primary/30">
+            <span className="font-display text-2xl text-primary leading-none">{totalOwned}</span>
+            <span className="text-primary/60 font-display">/</span>
+            <span className="font-display text-lg text-primary/70 leading-none">{totalCards || "?"}</span>
+            <span className="text-xs text-primary/80 ml-1 font-display uppercase tracking-wide">found</span>
           </div>
         </div>
-        <div className="flex items-center gap-2 bg-accent/10 rounded-xl px-4 py-2 border-2 border-accent/30">
-          <span className="font-display text-2xl text-accent leading-none">{totalOwned}</span>
-          <span className="text-accent/60 font-display">/</span>
-          <span className="font-display text-lg text-accent/70 leading-none">{totalCards || "?"}</span>
-          <span className="text-xs text-accent/80 ml-1 font-display uppercase tracking-wide">unique</span>
+
+        <div className="mt-4 flex items-center gap-3">
+          <Progress value={progress} className="h-4 bg-muted border-2 border-border" />
+          <div className="tab-pill tab-pill-active text-xs !py-1.5 !px-3 shrink-0">
+            {progress}% complete
+          </div>
         </div>
       </div>
 
@@ -224,19 +238,41 @@ export const CollectionGrid = ({ userId }: { userId: string }) => {
           const info = raritySectionInfo[rarity];
           const slots = buildSlots(rarity);
           const ownedCount = cards.filter(c => ownedByCardId.has(c.id)).length;
+          const sectionProgress = cards.length > 0 ? Math.round((ownedCount / cards.length) * 100) : 0;
           const activeItem = activeDragId ? slots.find(s => s.id === activeDragId) : null;
+          const chapterEmoji: Record<Rarity, string> = {
+            common: "🌿",
+            rare: "🌊",
+            epic: "🏔️",
+            legendary: "🌋",
+            super_rare: "✨",
+          };
 
           return (
             <section key={rarity}>
               <div className="section-banner" style={{ borderColor: info.color + "44" }}>
-                <span className="pip" style={{ background: info.color }} />
-                <div className="flex-1">
-                  <h2 className="font-display text-lg" style={{ color: info.color }}>{info.title}</h2>
-                  <p className="text-xs text-muted-foreground">{info.subtitle}</p>
+                <div className="w-10 h-10 rounded-2xl border-2 flex items-center justify-center text-lg"
+                  style={{ borderColor: info.color + "55", background: info.color + "18" }}
+                >
+                  <span aria-hidden="true">{chapterEmoji[rarity]}</span>
                 </div>
-                <span className="chip" style={{ background: info.color, color: "white" }}>
-                  {ownedCount} / {cards.length}
-                </span>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-3">
+                    <h2 className="font-display text-lg truncate" style={{ color: info.color }}>
+                      {info.title} Trail
+                    </h2>
+                    <span className="chip" style={{ background: info.color, color: "white" }}>
+                      {ownedCount} / {cards.length}
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">{info.subtitle}</p>
+                  <div className="mt-2 flex items-center gap-2">
+                    <Progress value={sectionProgress} className="h-3 bg-muted border border-border" />
+                    <span className="text-[10px] font-display uppercase tracking-wide text-muted-foreground shrink-0">
+                      {sectionProgress}%
+                    </span>
+                  </div>
+                </div>
               </div>
 
               <DndContext
