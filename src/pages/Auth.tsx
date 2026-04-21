@@ -48,7 +48,9 @@ const Auth = () => {
     if (!email.trim()) return;
     setLoading(true);
     try {
-      const redirectTo = import.meta.env.VITE_SITE_URL || window.location.origin;
+      // Avoid requiring any host-specific env config (Lovable, localhost, etc.)
+      // and avoid hash-based routing fragments in redirect URLs.
+      const redirectTo = `${window.location.origin}${window.location.pathname}`.replace(/\/+$/, "");
       const { error } = await supabase.auth.signInWithOtp({
         email: email.trim(),
         options: { emailRedirectTo: `${redirectTo}/` },

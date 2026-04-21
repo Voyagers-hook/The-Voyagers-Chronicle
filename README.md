@@ -5,7 +5,6 @@
 This is a Vite + React + Supabase app.
 
 1. Create `.env` (see `.env` in repo root for the expected keys)
-   - Optional: set `VITE_SITE_URL` to control magic-link redirect (defaults to current origin).
 2. Install deps and run:
 
 ```bash
@@ -26,5 +25,5 @@ Admin is controlled by the `public.user_roles` table in Supabase. Because of RLS
 
 ## Auth redirect (magic links)
 
-The sign-in email link redirect uses `VITE_SITE_URL` when set, otherwise it falls back to `window.location.origin`.
-If Supabase still redirects to the “original” hosted domain, ensure that domain is in Supabase Auth → URL configuration (redirect allowlist).
+The sign-in email link redirect is based on the current site origin (works on Lovable hosting and localhost).
+If Supabase redirects somewhere unexpected, ensure the correct domain is in Supabase Auth → URL configuration (redirect allowlist).
